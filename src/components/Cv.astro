@@ -44,7 +44,7 @@ const displayUrl = (url: string) => url.replace(/^https?:\/\//, '');
 					<h3>{job.title} <span class="cv-org">· {job.org}</span></h3>
 					<span class="cv-period">{job.period}</span>
 				</div>
-				<p class="cv-context">{job.context}</p>
+				{job.context && <p class="cv-context">{job.context}</p>}
 				<ul class="cv-bullets">
 					{job.bullets.map((bullet) => <li>{bullet}</li>)}
 				</ul>

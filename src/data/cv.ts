@@ -8,7 +8,7 @@ export interface Job {
 	title: string;
 	org: string;
 	period: string;
-	context: string;
+	context?: string;
 	bullets: string[];
 }
 
@@ -87,10 +87,9 @@ export const cvFr: CvContent = {
 			title: 'Game Designer / Game Developer',
 			org: 'Indépendant',
 			period: '2023 – déc. 2025',
-			context: 'Roguelite action incubé à la Plaine Images, Lille',
 			bullets: [
-				'Référent game design, contribution au développement et à l’architecture technique jusqu’à mon départ',
-				'Développement de 2 autres jeux : un jeu d’échecs et un versus en local',
+				'Roguelite action incubé à la Plaine Images, Lille (6 mois) : référent game design, contribution au développement et à l’architecture technique',
+				'Deux prototypes expérimentaux (un jeu d’échecs, un versus en local) : non aboutis, mais très formateurs',
 				'Participation à de nombreuses game jams',
 			],
 		},
@@ -104,8 +103,8 @@ export const cvFr: CvContent = {
 	skills: [
 		{ label: 'Langage', value: 'C#' },
 		{ label: 'Moteurs', value: 'Unity, Unreal Engine' },
-		{ label: 'Méthodes', value: 'TDD, architecture événementielle, outils éditeur, développement assisté par IA (Claude Code)' },
-		{ label: 'Outils', value: 'Git, GitHub, Photoshop, 3ds Max' },
+		{ label: 'Méthodes', value: 'TDD, architecture événementielle, outils éditeur' },
+		{ label: 'Outils', value: 'Git, GitHub, Claude Code (création de skills pour mon workflow), Photoshop, 3ds Max' },
 		{ label: 'Qualités', value: 'Analytique, curieux, adaptable, esprit d’équipe' },
 	],
 	background: [
@@ -154,10 +153,9 @@ export const cvEn: CvContent = {
 			title: 'Game Designer / Game Developer',
 			org: 'Independent',
 			period: '2023 – Dec 2025',
-			context: 'Action roguelite incubated at Plaine Images, Lille',
 			bullets: [
-				'Game design lead; contributed to development and technical architecture until I left',
-				'Built 2 other games: a chess game and a local versus game',
+				'Action roguelite incubated at Plaine Images, Lille (6 months): game design lead, contributed to development and technical architecture',
+				'Two experimental prototypes (a chess game, a local versus game): unfinished, but a huge learning experience',
 				'Took part in many game jams',
 			],
 		},
@@ -171,8 +169,8 @@ export const cvEn: CvContent = {
 	skills: [
 		{ label: 'Language', value: 'C#' },
 		{ label: 'Engines', value: 'Unity, Unreal Engine' },
-		{ label: 'Practices', value: 'TDD, event-driven architecture, editor tooling, AI-assisted development (Claude Code)' },
-		{ label: 'Tools', value: 'Git, GitHub, Photoshop, 3ds Max' },
+		{ label: 'Practices', value: 'TDD, event-driven architecture, editor tooling' },
+		{ label: 'Tools', value: 'Git, GitHub, Claude Code (building custom skills for my workflow), Photoshop, 3ds Max' },
 		{ label: 'Strengths', value: 'Analytical, curious, adaptable, team player' },
 	],
 	background: [
