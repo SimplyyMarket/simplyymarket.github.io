@@ -1,0 +1,94 @@
+---
+// CV rendu en page web ; la même page s'imprime en A4 sur une page (voir cv.css).
+// Les emplacements data-slot (âge, téléphone) restent vides et masqués dans le
+// build publié : seul scripts/cv-pdf.mjs les remplit, en local, pour le PDF papier.
+import '../styles/cv.css';
+import { identity, type CvContent } from '../data/cv';
+
+interface Props {
+	cv: CvContent;
+}
+
+const { cv } = Astro.props;
+const otherLang = cv.lang === 'fr' ? 'en' : 'fr';
+const otherHref = cv.lang === 'fr' ? '/en/cv/' : '/cv/';
+const displayUrl = (url: string) => url.replace(/^https?:\/\//, '');
+---
+
+<main class="cv">
+	<nav class="cv-topbar screen-only">
+		<a href="/">← {cv.labels.home}</a>
+		<a href={otherHref} hreflang={otherLang} lang={otherLang}>{cv.labels.switchLang}</a>
+	</nav>
+
+	<header class="cv-header">
+		<h1>{identity.name}</h1>
+		<p class="cv-headline">{cv.headline}</p>
+		<ul class="cv-contact">
+			<li>{cv.location}</li>
+			<li data-slot="age" data-template={cv.labels.ageTemplate} hidden></li>
+			<li><a href={`mailto:${identity.email}`}>{identity.email}</a></li>
+			<li data-slot="phone" hidden></li>
+		</ul>
+		<ul class="cv-contact">
+			<li><a href={identity.website}>{displayUrl(identity.website)}</a></li>
+			<li><a href={identity.github}>{displayUrl(identity.github)}</a></li>
+		</ul>
+	</header>
+
+	<section class="cv-section">
+		<h2>{cv.labels.experience}</h2>
+		{cv.experience.map((job) => (
+			<article class="cv-entry">
+				<div class="cv-entry-head">
+					<h3>{job.title} <span class="cv-org">· {job.org}</span></h3>
+					<span class="cv-period">{job.period}</span>
+				</div>
+				<p class="cv-context">{job.context}</p>
+				<ul class="cv-bullets">
+					{job.bullets.map((bullet) => <li>{bullet}</li>)}
+				</ul>
+			</article>
+		))}
+	</section>
+
+	<section class="cv-section">
+		<h2>{cv.labels.education}</h2>
+		<ul class="cv-rows">
+			{cv.education.map((row) => (
+				<li class="cv-row">
+					<span><strong>{row.title}</strong> <span class="cv-org">· {row.org}</span></span>
+					<span class="cv-period">{row.period}</span>
+				</li>
+			))}
+		</ul>
+	</section>
+
+	<section class="cv-section">
+		<h2>{cv.labels.skills}</h2>
+		<dl class="cv-pairs">
+			{cv.skills.map((pair) => (
+				<>
+					<dt>{pair.label}</dt>
+					<dd>{pair.value}</dd>
+				</>
+			))}
+		</dl>
+	</section>
+
+	<section class="cv-section">
+		<h2>{cv.labels.background}</h2>
+		<ul class="cv-bullets">
+			{cv.background.map((line) => <li>{line}</li>)}
+		</ul>
+	</section>
+
+	<section class="cv-section">
+		<h2>{cv.labels.languages}</h2>
+		<ul class="cv-inline">
+			{cv.languages.map((language) => (
+				<li><strong>{language.label}</strong> ({language.value})</li>
+			))}
+		</ul>
+	</section>
+</main>

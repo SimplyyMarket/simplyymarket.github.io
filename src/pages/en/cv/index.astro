@@ -1,0 +1,9 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Cv from '../../../components/Cv.astro';
+import { cvEn } from '../../../data/cv';
+---
+
+<Base lang="en" title={cvEn.pageTitle} description={cvEn.headline}>
+	<Cv cv={cvEn} />
+</Base>
