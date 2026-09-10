@@ -81,7 +81,7 @@ export const cvFr: CvContent = {
 	experience: [
 		{
 			title: 'Développeur et game designer indépendant',
-			period: '2023 – aujourd’hui',
+			period: 'sept. 2023 – aujourd’hui',
 			projects: [
 				{
 					name: 'Navimancie',
@@ -109,6 +109,7 @@ export const cvFr: CvContent = {
 				},
 				{
 					name: 'Prototypes et game jams',
+					period: 'sept. 2023 – mai 2025',
 					bullets: [
 						'Deux prototypes expérimentaux (un jeu d’échecs, un versus en local) : non aboutis, mais très formateurs',
 						'Participation à de nombreuses game jams',
@@ -159,7 +160,7 @@ export const cvEn: CvContent = {
 	experience: [
 		{
 			title: 'Independent Game Developer & Designer',
-			period: '2023 – present',
+			period: 'Sep 2023 – present',
 			projects: [
 				{
 					name: 'Navimancie',
@@ -184,6 +185,7 @@ export const cvEn: CvContent = {
 				},
 				{
 					name: 'Prototypes and game jams',
+					period: 'Sep 2023 – May 2025',
 					bullets: [
 						'Two experimental prototypes (a chess game, a local versus game): unfinished, but a huge learning experience',
 						'Took part in many game jams',
