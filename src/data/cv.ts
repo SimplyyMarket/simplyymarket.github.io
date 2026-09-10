@@ -87,7 +87,7 @@ export const cvFr: CvContent = {
 					name: 'Navimancie',
 					role: 'Game designer et développeur principal',
 					period: 'janv. 2026 – aujourd’hui',
-					context: 'Jeu de stratégie en temps réel roguelite sous Unity (C#), équipe de 3, sortie prévue sur Steam',
+					context: 'Jeu de stratégie en temps réel roguelite sous Unity (C#), sortie prévue sur Steam',
 					bullets: [
 						'Co-conception de l’architecture technique : systèmes découplés communiquant via un EventBus',
 						'Système d’effets de combat composable : une dizaine d’effets (gel, étourdissement, brûlure, zone…) combinables et déclenchés par des hooks (impact, mort, invocation…)',
@@ -125,7 +125,7 @@ export const cvFr: CvContent = {
 		{ title: 'Bac S spécialité mathématiques, mention Très Bien', org: 'Collège du Léman, Suisse', period: '2013' },
 	],
 	skills: [
-		{ label: 'Développement', value: 'C#, Unity, Unreal Engine, TDD, architecture événementielle' },
+		{ label: 'Développement', value: 'C#, Unity, TDD, architecture événementielle' },
 		{ label: 'Game design', value: 'Mécaniques et systèmes de jeu, rédaction de GDD' },
 		{ label: 'Outils', value: 'Git, GitHub, Claude Code (création de skills pour mon workflow), Photoshop, 3ds Max' },
 		{ label: 'Qualités', value: 'Analytique, curieux, adaptable, esprit d’équipe' },
@@ -166,7 +166,7 @@ export const cvEn: CvContent = {
 					name: 'Navimancie',
 					role: 'Game Designer & Lead Developer',
 					period: 'Jan 2026 – present',
-					context: 'Real-time strategy roguelite in Unity (C#), team of 3, Steam release planned',
+					context: 'Real-time strategy roguelite in Unity (C#), Steam release planned',
 					bullets: [
 						'Co-designed the technical architecture: decoupled systems communicating through an EventBus',
 						'Composable combat effect system: about ten stackable effects (freeze, stun, burn, area of effect…) triggered by hooks (on hit, on death, on spawn…)',
@@ -201,7 +201,7 @@ export const cvEn: CvContent = {
 		{ title: 'Scientific Baccalaureate, Mathematics, highest honours', org: 'Collège du Léman, Switzerland', period: '2013' },
 	],
 	skills: [
-		{ label: 'Development', value: 'C#, Unity, Unreal Engine, TDD, event-driven architecture' },
+		{ label: 'Development', value: 'C#, Unity, TDD, event-driven architecture' },
 		{ label: 'Game design', value: 'Game mechanics and systems, GDD writing' },
 		{ label: 'Tools', value: 'Git, GitHub, Claude Code (building custom skills for my workflow), Photoshop, 3ds Max' },
 		{ label: 'Strengths', value: 'Analytical, curious, adaptable, team player' },

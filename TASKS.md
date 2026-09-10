@@ -55,7 +55,7 @@ Fonctionnement actuel :
 - [ ] `[Toi]` Build WebGL + upload itch.io
 - [ ] `[Toi]` Vidéo de démo combat (2-3 min)
 - [ ] `[Ensemble]` Étude de cas Navimancie sur le site :
-  - pitch, rôle de développeur principal dans une équipe de 3, décisions d'architecture
+  - pitch, rôle de game designer et développeur principal, décisions d'architecture
   - 2-3 systèmes en problème → solution → résultat
   - section "mon usage de l'IA" (création de skills pour le workflow `navimancie-plan/execute/verify`)
 
