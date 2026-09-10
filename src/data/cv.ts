@@ -87,7 +87,7 @@ export const cvFr: CvContent = {
 					name: 'Navimancie',
 					role: 'Game designer et développeur principal',
 					period: 'janv. 2026 – aujourd’hui',
-					context: 'Roguelite sous Unity (C#), équipe de 3, sortie prévue sur Steam',
+					context: 'Jeu de stratégie en temps réel roguelite sous Unity (C#), équipe de 3, sortie prévue sur Steam',
 					bullets: [
 						'Co-conception de l’architecture technique : systèmes découplés communiquant via un EventBus',
 						'Système d’effets de combat composable : une dizaine d’effets (gel, étourdissement, brûlure, zone…) combinables et déclenchés par des hooks (impact, mort, invocation…)',
@@ -166,7 +166,7 @@ export const cvEn: CvContent = {
 					name: 'Navimancie',
 					role: 'Game Designer & Lead Developer',
 					period: 'Jan 2026 – present',
-					context: 'Roguelite in Unity (C#), team of 3, Steam release planned',
+					context: 'Real-time strategy roguelite in Unity (C#), team of 3, Steam release planned',
 					bullets: [
 						'Co-designed the technical architecture: decoupled systems communicating through an EventBus',
 						'Composable combat effect system: about ten stackable effects (freeze, stun, burn, area of effect…) triggered by hooks (on hit, on death, on spawn…)',
