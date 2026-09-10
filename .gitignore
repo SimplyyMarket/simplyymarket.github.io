@@ -22,3 +22,6 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# données personnelles (téléphone, âge) et PDF papier générés — jamais publiés
+private/

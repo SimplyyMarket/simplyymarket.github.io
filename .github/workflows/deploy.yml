@@ -20,42 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # --- CV : les 2 YAML -> PDF via RenderCV, copiés dans public/ avant le build Astro ---
-      # NOTE : premier vrai contenu (Phase 1), schéma RenderCV pas encore validé par un run
-      # réel (Python indisponible en local). Non-bloquant (continue-on-error) tant que ce
-      # premier passage n'a pas confirmé la syntaxe — à retirer une fois validé.
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Render CV (papier + numérique, non-bloquant)
-        continue-on-error: true
-        run: |
-          pip install "rendercv[full]"
-          mkdir -p public/cv
-
-          # Chaque rendu isolé dans son propre dossier temporaire : on n'a pas besoin
-          # de connaître le nom exact du flag de dossier de sortie de cette version de
-          # RenderCV (--output-folder-name a été rejeté en RenderCV 2.8, voir historique).
-          mkdir -p /tmp/render-numerique
-          cp cv/louis_bich_numerique.yaml /tmp/render-numerique/
-          (cd /tmp/render-numerique && rendercv render louis_bich_numerique.yaml) || true
-          if find /tmp/render-numerique -iname "*.pdf" | grep -q .; then
-            find /tmp/render-numerique -iname "*.pdf" -exec cp {} public/cv/louis-bich-cv.pdf \;
-          else
-            echo "PDF numérique non généré — étape ignorée."
-          fi
-
-          mkdir -p /tmp/render-papier
-          cp cv/louis_bich_papier.yaml /tmp/render-papier/
-          (cd /tmp/render-papier && rendercv render louis_bich_papier.yaml) || true
-          if find /tmp/render-papier -iname "*.pdf" | grep -q .; then
-            find /tmp/render-papier -iname "*.pdf" -exec cp {} public/cv/louis-bich-cv-papier.pdf \;
-          else
-            echo "PDF papier non généré — étape ignorée."
-          fi
-
-      # --- Site : build Astro ---
+      # Le CV numérique est une page du site (src/pages/cv). Le PDF papier, qui
+      # contient le téléphone, est généré en local uniquement (npm run cv:pdf) et
+      # n'est jamais publié.
       - uses: withastro/action@v6
 
   deploy:
