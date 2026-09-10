@@ -85,7 +85,7 @@ export const cvFr: CvContent = {
 			projects: [
 				{
 					name: 'Navimancie',
-					role: 'Co-game designer et développeur principal',
+					role: 'Game designer et développeur principal',
 					period: 'janv. 2026 – aujourd’hui',
 					context: 'Roguelite sous Unity (C#), équipe de 3, sortie prévue sur Steam',
 					bullets: [
@@ -164,7 +164,7 @@ export const cvEn: CvContent = {
 			projects: [
 				{
 					name: 'Navimancie',
-					role: 'Co-Game Designer & Lead Developer',
+					role: 'Game Designer & Lead Developer',
 					period: 'Jan 2026 – present',
 					context: 'Roguelite in Unity (C#), team of 3, Steam release planned',
 					bullets: [

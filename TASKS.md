@@ -33,7 +33,7 @@ Fonctionnement actuel :
 - [x] `[Moi]` Anglais par défaut : `/cv/` = anglais, `/fr/cv/` = français
 - [x] `[Moi]` Téléphone effacé de l'historique git
 - [x] `[Toi]` LinkedIn ajouté : https://www.linkedin.com/in/bichlouis/
-- [x] `[Ensemble]` Rôles corrigés : Navimancie = co-game designer et développeur principal ; roguelite Plaine Images = game designer et développeur (+ conception des mécaniques de jeu)
+- [x] `[Ensemble]` Rôles corrigés : Navimancie = game designer et développeur principal ; roguelite Plaine Images = game designer et développeur (+ conception des mécaniques de jeu)
 - [x] `[Ensemble]` Compétences regroupées par métier (Développement, Game design, Outils, Qualités) au lieu de Langage/Moteurs/Méthodes
 - [ ] `[Toi]` Demander au support GitHub de purger les commits orphelins en cache : l'ancien commit `47ae685` reste lisible par son identifiant complet (https://support.github.com/contact → « Remove sensitive data »)
 - [ ] `[Toi]` Supprimer les anciens runs Actions n°2 à 6 (onglet Actions → ouvrir le run → menu « … » → « Delete workflow run ») : ils pointent vers les anciens commits
