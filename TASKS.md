@@ -16,7 +16,9 @@ Légende : `[Toi]` action attendue de Louis · `[Moi]` je peux l'exécuter · `[
 - [ ] `[Ensemble]` Créer le repo `simplyymarket.github.io` sur GitHub et le connecter en remote
 - [ ] `[Moi]` Squelette RenderCV (YAML) à partir du contenu actuel, **sans réécriture** — juste la structure technique posée
 
-## Phase 1 — CV (2 versions) — CONTENU FAIT, validation technique en attente
+## Phase 1 — CV (2 versions) — TERMINÉE
+
+Bug résolu : `--output-folder-name` rejeté par RenderCV 2.8 → rendu isolé par dossier temporaire (commit `fix: isole chaque rendu RenderCV`). Les 2 PDF sont générés et déployés : https://simplyymarket.github.io/cv/louis-bich-cv.pdf (numérique) et `.../louis-bich-cv-papier.pdf` (papier, avec tél + âge).
 
 - [x] `[Ensemble]` Session de refonte du contenu CV
   - [x] C++ retiré des compétences
@@ -28,7 +30,8 @@ Légende : `[Toi]` action attendue de Louis · `[Moi]` je peux l'exécuter · `[
 - [x] `[Moi]` `cv/louis_bich_papier.yaml` — coordonnées complètes (téléphone, âge 31)
 - [x] `[Moi]` `cv/louis_bich_numerique.yaml` — email uniquement, pas d'âge
 - [x] `[Moi]` Workflow mis à jour pour générer les 2 PDF (`public/cv/louis-bich-cv.pdf` + `louis-bich-cv-papier.pdf`)
-- [ ] `[Ensemble]` Premier push réel : vérifier que le schéma RenderCV est valide (pas testable en local, Python absent) — étape non-bloquante pour le déploiement du site en attendant
+- [x] `[Ensemble]` Premier push réel : schéma RenderCV validé, les 2 PDF se génèrent correctement
+- [ ] `[Toi]` Relire les 2 PDF envoyés — vérifier notamment le titre de section "Parcours Competitif" (accents possiblement perdus par RenderCV, thème "classic" par défaut à discuter aussi)
 - [ ] `[Toi]` Username LinkedIn (placeholder retiré du YAML en attendant, pas de lien cassé)
 
 ## Phase 2 — Site minimal (liens centralisés)
