@@ -14,7 +14,7 @@ Légende : `[Toi]` action attendue de Louis · `[Moi]` je peux l'exécuter · `[
 - [x] `[Moi]` Workflow GitHub Actions : build Astro → déploiement Pages (`withastro/action`)
 - [x] `[Toi]` Repo `simplyymarket.github.io` créé à la main, Pages en source "GitHub Actions" (pas besoin de `gh` CLI)
 
-## Phase 1 — CV (EN + FR, web + papier) — v2 en relecture
+## Phase 1 — CV (EN + FR, web + papier) — CONTENU VALIDÉ, mise en page en Phase 2
 
 Historique : la v1 RenderCV a été rejetée (mise en page peu soignée, titres anglais sur contenu français, formation illisible, 2 pages, versions papier/numérique quasi identiques). Le téléphone était aussi public (YAML dans le repo + PDF papier servi sur le site) : retiré du site et du repo, puis effacé de l'historique git (réécriture + force push le 11/09/2026). Sauvegarde de l'ancien historique : `private/backup-avant-reecriture.bundle` (local uniquement).
 
@@ -31,13 +31,16 @@ Fonctionnement actuel :
 - [x] `[Moi]` Anglais par défaut : `/cv/` = anglais, `/fr/cv/` = français
 - [x] `[Moi]` PDF papier EN + FR sur une page
 - [x] `[Moi]` Téléphone effacé de l'historique git
+- [ ] `[Ensemble]` Mise en page du CV papier (plus soignée) → faite en Phase 2 avec l'identité visuelle du site
 - [ ] `[Toi]` Demander au support GitHub de purger les commits orphelins en cache : l'ancien commit `47ae685` reste lisible par son identifiant complet (https://support.github.com/contact → « Remove sensitive data »)
 - [ ] `[Toi]` Supprimer les anciens runs Actions n°2 à 6 (onglet Actions → ouvrir le run → menu « … » → « Delete workflow run ») : ils pointent vers les anciens commits
-- [ ] `[Toi]` Relire la page web et les 2 PDF papier (design, formulations, traduction anglaise)
 - [ ] `[Toi]` Username LinkedIn (à ajouter aux liens une fois le profil refait)
 
-## Phase 2 — Page d'accueil portfolio (type nrjnicks.github.io) — après validation du CV
+## Phase 2 — Identité visuelle + page d'accueil portfolio (type nrjnicks.github.io) — PROCHAINE ÉTAPE
 
+- [ ] `[Ensemble]` Identité visuelle commune au site et au CV papier : couleurs, typographie, traitement de l'en-tête (maquettes à comparer avant de coder)
+- [ ] `[Moi]` Mise en page du CV papier avec cette identité (reste sur une colonne pour la lecture par les ATS, toujours 1 page)
+- [ ] `[Moi]` Mise en page du CV web avec cette identité
 - [ ] `[Toi]` Fournir/refaire le lien LinkedIn (et tout autre profil à lister)
 - [ ] `[Moi]` Page d'accueil en anglais (version française à un clic) : accroche, présentation courte, projets (Navimancie en tête, emplacement démo à venir), lien vers le CV web, itch.io (dès dispo), LinkedIn, GitHub, contact
 - [ ] `[Moi]` Page "About" EN/FR (esport, LAN, enseignement en Chine, langues — le détail que le CV ne peut pas porter)
@@ -81,6 +84,7 @@ Fonctionnement actuel :
 - Site en anglais par défaut (international, montre le bilinguisme), version française disponible à un clic.
 - Référence structurelle du site : nrjnicks.github.io (structure seulement, design original).
 - CV : version numérique = page web EN/FR ; version papier = PDF A4 d'une page généré en local (avec téléphone), jamais publié. Pas d'âge nulle part. RenderCV abandonné.
+- Contenu du CV validé ; sa mise en page (papier et web) se fait en Phase 2, avec la même identité visuelle que le site.
 - L'IA apparaît comme un outil (Claude Code + création de skills), jamais comme « assistance ».
 - Les 2 prototypes perso (échecs, versus local) restent sur le CV mais pas dans le portfolio.
 - Asobo n'est pas une deadline — le CV part dès qu'il est prêt, indépendamment du site.
