@@ -16,15 +16,20 @@ Légende : `[Toi]` action attendue de Louis · `[Moi]` je peux l'exécuter · `[
 - [ ] `[Ensemble]` Créer le repo `simplyymarket.github.io` sur GitHub et le connecter en remote
 - [ ] `[Moi]` Squelette RenderCV (YAML) à partir du contenu actuel, **sans réécriture** — juste la structure technique posée
 
-## Phase 1 — CV (2 versions)
+## Phase 1 — CV (2 versions) — CONTENU FAIT, validation technique en attente
 
-- [ ] `[Ensemble]` Session de refonte du contenu CV (le PDF fourni sert de base)
-  - [ ] Décision : garder/enlever C++, reformuler l'accroche, condenser esport/LAN
-  - [ ] Reformuler l'expérience "indé 2023-2025" : projet distinct de Navimancie (avant Navimancie), quitté après scission avec le collègue, le projet a depuis beaucoup changé — cadrer comme contribution passée, pas comme le travail actuel
-  - [ ] Corriger la coquille de date (2013-3015 → 2013-2015)
-- [ ] `[Moi]` Version "papier" (PDF nominatif, coordonnées complètes) via RenderCV
-- [ ] `[Moi]` Version "numérique" (PDF public, coordonnées prudentes) via RenderCV
-- [ ] `[Moi]` Action GitHub qui régénère les 2 PDF à chaque modification du YAML
+- [x] `[Ensemble]` Session de refonte du contenu CV
+  - [x] C++ retiré des compétences
+  - [x] Accroche verrouillée : "Développeur Unity polyvalent — conception et implémentation de mes propres systèmes de jeu, du game design au code."
+  - [x] Esport/TCG/enseignement condensés en section "Parcours compétitif & international" (2 lignes)
+  - [x] Expérience "Indépendant 2023-2025" reformulée : projet distinct de Navimancie, contribution jusqu'au départ de l'équipe (scission), projet poursuivi différemment depuis
+  - [x] Expérience Navimancie ajoutée (01/2026 - présent) : 6 highlights (architecture EventBus, système d'effets composable, IA unités, outils internes, boucle de jeu, 1000+ tests/TDD)
+  - [x] Coquille de date (2013-3015 → 2013-2015) corrigée
+- [x] `[Moi]` `cv/louis_bich_papier.yaml` — coordonnées complètes (téléphone, âge 31)
+- [x] `[Moi]` `cv/louis_bich_numerique.yaml` — email uniquement, pas d'âge
+- [x] `[Moi]` Workflow mis à jour pour générer les 2 PDF (`public/cv/louis-bich-cv.pdf` + `louis-bich-cv-papier.pdf`)
+- [ ] `[Ensemble]` Premier push réel : vérifier que le schéma RenderCV est valide (pas testable en local, Python absent) — étape non-bloquante pour le déploiement du site en attendant
+- [ ] `[Toi]` Username LinkedIn (placeholder retiré du YAML en attendant, pas de lien cassé)
 
 ## Phase 2 — Site minimal (liens centralisés)
 

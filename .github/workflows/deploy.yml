@@ -20,21 +20,23 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # --- CV : YAML -> PDF via RenderCV, copié dans public/ avant le build Astro ---
-      # NOTE (Phase 0 skeleton) : cv/louis_bich.yaml est encore un brouillon avec des
-      # valeurs TODO. Cette étape est volontairement non-bloquante (continue-on-error)
-      # tant que le schéma n'a pas été validé en Phase 1 — à retirer une fois le YAML final.
+      # --- CV : les 2 YAML -> PDF via RenderCV, copiés dans public/ avant le build Astro ---
+      # NOTE : premier vrai contenu (Phase 1), schéma RenderCV pas encore validé par un run
+      # réel (Python indisponible en local). Non-bloquant (continue-on-error) tant que ce
+      # premier passage n'a pas confirmé la syntaxe — à retirer une fois validé.
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Render CV (draft, non-bloquant)
+      - name: Render CV (papier + numérique, non-bloquant au premier passage)
         continue-on-error: true
         run: |
           pip install "rendercv[full]"
           mkdir -p public/cv
-          rendercv render cv/louis_bich.yaml --output-folder-name rendercv-output || true
-          cp rendercv-output/*.pdf public/cv/ 2>/dev/null || echo "Pas encore de PDF généré (YAML brouillon) — étape ignorée."
+          rendercv render cv/louis_bich_numerique.yaml --output-folder-name rendercv-output-numerique || true
+          rendercv render cv/louis_bich_papier.yaml --output-folder-name rendercv-output-papier || true
+          cp rendercv-output-numerique/*.pdf public/cv/louis-bich-cv.pdf 2>/dev/null || echo "PDF numérique non généré — étape ignorée."
+          cp rendercv-output-papier/*.pdf public/cv/louis-bich-cv-papier.pdf 2>/dev/null || echo "PDF papier non généré — étape ignorée."
 
       # --- Site : build Astro ---
       - uses: withastro/action@v6
