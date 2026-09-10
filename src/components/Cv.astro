@@ -59,16 +59,16 @@ const initials = identity.name
 					<span class="cv-icon" aria-hidden="true" set:html={phoneIcon} />
 					<span data-slot-value></span>
 				</li>
-				<li>
-					<span class="cv-icon" aria-hidden="true" set:html={worldIcon} />
-					<a href={identity.website}>{displayUrl(identity.website)}</a>
-				</li>
 				{identity.linkedin && (
 					<li>
 						<span class="cv-icon" aria-hidden="true" set:html={linkedinIcon} />
 						<a href={identity.linkedin}>{displayUrl(identity.linkedin)}</a>
 					</li>
 				)}
+				<li>
+					<span class="cv-icon" aria-hidden="true" set:html={worldIcon} />
+					<a href={identity.website}>{displayUrl(identity.website)}</a>
+				</li>
 			</ul>
 		</section>
 

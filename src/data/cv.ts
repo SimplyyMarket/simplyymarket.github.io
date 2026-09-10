@@ -101,7 +101,7 @@ export const cvFr: CvContent = {
 					name: 'Projet EON',
 					role: 'Game designer et développeur',
 					period: 'juin – déc. 2025',
-					context: 'Roguelite action, incubé à la Plaine Images, Lille',
+					context: 'Jeu d’action roguelite, incubé à la Plaine Images, Lille',
 					bullets: [
 						'Conception des mécaniques de jeu',
 						'Contribution au développement et à l’architecture technique',
