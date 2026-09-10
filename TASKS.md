@@ -14,7 +14,7 @@ Légende : `[Toi]` action attendue de Louis · `[Moi]` je peux l'exécuter · `[
 - [x] `[Moi]` Workflow GitHub Actions : build Astro → déploiement Pages (`withastro/action`)
 - [x] `[Toi]` Repo `simplyymarket.github.io` créé à la main, Pages en source "GitHub Actions" (pas besoin de `gh` CLI)
 
-## Phase 1 — CV (EN + FR, web + papier) — CONTENU VALIDÉ, mise en page en Phase 2
+## Phase 1 — CV (EN + FR, web + papier) — CONTENU VALIDÉ
 
 Historique : la v1 RenderCV a été rejetée (mise en page peu soignée, titres anglais sur contenu français, formation illisible, 2 pages, versions papier/numérique quasi identiques). Le téléphone était aussi public (YAML dans le repo + PDF papier servi sur le site) : retiré du site et du repo, puis effacé de l'historique git (réécriture + force push le 11/09/2026). Sauvegarde de l'ancien historique : `private/backup-avant-reecriture.bundle` (local uniquement).
 
@@ -22,28 +22,29 @@ Fonctionnement actuel :
 - Contenu : `src/data/cv.ts` (anglais + français, sans téléphone ni âge)
 - Version numérique = page web : `/cv/` (anglais, par défaut) et `/fr/cv/` (français)
 - Version papier = PDF A4 d'une page, **local uniquement** : `npm run cv:pdf` → `private/louis-bich-cv-en.pdf` et `private/louis-bich-cv-fr.pdf` (téléphone injecté depuis `private/contact.json`, ignoré par git)
+- Comparer des mises en page : `npm run cv:pdf -- --layouts=classic,sidebar`
 - Garde-fous du script : exactement 1 page (taille du texte ajustée automatiquement entre 8,8 et 10,5 pt) et aucun numéro de téléphone dans le build publié
 
 - [x] `[Ensemble]` Contenu validé : accroche, C++ retiré, 6 réalisations Navimancie, parcours condensé, coquille corrigée
-- [x] `[Ensemble]` Expérience indé corrigée : Plaine Images = 6 mois, séparée des 2 prototypes perso (non aboutis mais formateurs) et des game jams
-- [x] `[Ensemble]` Claude Code rangé dans « Outils » (création de skills pour le workflow) au lieu de « développement assisté par IA »
+- [x] `[Ensemble]` Claude Code rangé dans « Outils » (création de skills pour le workflow)
 - [x] `[Ensemble]` Âge retiré de toutes les versions (web et papier)
+- [x] `[Ensemble]` Expérience regroupée : « Développeur et game designer indépendant, 2023 – aujourd'hui », avec 3 projets (Navimancie — sortie Steam prévue, Plaine Images 6 mois, prototypes et game jams)
+- [x] `[Ensemble]` Liens : site portfolio conservé, profil GitHub retiré (presque vide pour l'instant)
 - [x] `[Moi]` Anglais par défaut : `/cv/` = anglais, `/fr/cv/` = français
-- [x] `[Moi]` PDF papier EN + FR sur une page
 - [x] `[Moi]` Téléphone effacé de l'historique git
-- [ ] `[Ensemble]` Mise en page du CV papier (plus soignée) → faite en Phase 2 avec l'identité visuelle du site
+- [ ] `[Toi]` URL du profil LinkedIn (à renseigner dans `identity.linkedin`, affichée avec son icône)
 - [ ] `[Toi]` Demander au support GitHub de purger les commits orphelins en cache : l'ancien commit `47ae685` reste lisible par son identifiant complet (https://support.github.com/contact → « Remove sensitive data »)
 - [ ] `[Toi]` Supprimer les anciens runs Actions n°2 à 6 (onglet Actions → ouvrir le run → menu « … » → « Delete workflow run ») : ils pointent vers les anciens commits
-- [ ] `[Toi]` Username LinkedIn (à ajouter aux liens une fois le profil refait)
 
-## Phase 2 — Identité visuelle + page d'accueil portfolio (type nrjnicks.github.io) — PROCHAINE ÉTAPE
+## Phase 2 — Identité visuelle + page d'accueil portfolio (type nrjnicks.github.io) — EN COURS
 
-- [ ] `[Ensemble]` Identité visuelle commune au site et au CV papier : couleurs, typographie, traitement de l'en-tête (maquettes à comparer avant de coder)
-- [ ] `[Moi]` Mise en page du CV papier avec cette identité (reste sur une colonne pour la lecture par les ATS, toujours 1 page)
-- [ ] `[Moi]` Mise en page du CV web avec cette identité
-- [ ] `[Toi]` Fournir/refaire le lien LinkedIn (et tout autre profil à lister)
-- [ ] `[Moi]` Page d'accueil en anglais (version française à un clic) : accroche, présentation courte, projets (Navimancie en tête, emplacement démo à venir), lien vers le CV web, itch.io (dès dispo), LinkedIn, GitHub, contact
-- [ ] `[Moi]` Page "About" EN/FR (esport, LAN, enseignement en Chine, langues — le détail que le CV ne peut pas porter)
+- [x] `[Ensemble]` Mise en page papier choisie : colonne latérale (photo, contact, compétences, langues à gauche)
+- [x] `[Ensemble]` Palette : bleu-gris ardoise repris de l'ancien CV (`#57737a`), teinte pâle pour la colonne latérale
+- [x] `[Moi]` Icônes devant les coordonnées (Tabler, contour)
+- [ ] `[Toi]` Photo (portrait tête et épaules, JPG/PNG) → `public/images/`, renseignée dans `identity.photo`
+- [ ] `[Ensemble]` Valider les aperçus papier (couleur, icônes, regroupement des projets)
+- [ ] `[Moi]` Version numérique : page d'accueil complète qui défile (type nrjnicks), en anglais avec version française à un clic, même identité visuelle : présentation, projets (Navimancie en tête, emplacement démo à venir), CV, liens, contact
+- [ ] `[Moi]` Page "About" EN/FR (esport, LAN, enseignement en Chine, langues — le détail que le CV ne peut pas porter), ou section de la page d'accueil
 - [ ] `[Moi]` Lighthouse/SEO/accessibilité de base via Chrome DevTools MCP
 
 ## Phase 3 — Démo Navimancie (dépend du build)
@@ -62,6 +63,7 @@ Fonctionnement actuel :
 - [ ] `[Ensemble]` Revue complète : commentaires sensibles (refs jeux commerciaux type Clash Royale → reformuler en termes génériques)
 - [ ] `[Ensemble]` Vérifier les assets (VFX inclus) : licences Asset Store, ce qui doit être exclu du repo public
 - [ ] `[Moi]` Nettoyage via `ecc:opensource-sanitizer` avant publication
+- [ ] `[Moi]` Une fois public : lien vers le repo Navimancie dans le CV (bloc Navimancie) et sur le site
 
 ## Phase 5 — Contenu additionnel
 
@@ -84,7 +86,9 @@ Fonctionnement actuel :
 - Site en anglais par défaut (international, montre le bilinguisme), version française disponible à un clic.
 - Référence structurelle du site : nrjnicks.github.io (structure seulement, design original).
 - CV : version numérique = page web EN/FR ; version papier = PDF A4 d'une page généré en local (avec téléphone), jamais publié. Pas d'âge nulle part. RenderCV abandonné.
-- Contenu du CV validé ; sa mise en page (papier et web) se fait en Phase 2, avec la même identité visuelle que le site.
+- CV papier : colonne latérale, palette bleu-gris ardoise, icônes devant les coordonnées.
+- Toute l'expérience est présentée comme indépendante (2023 – aujourd'hui), projets détaillés dessous.
+- Liens du CV : site portfolio + LinkedIn ; pas de profil GitHub tant qu'il est vide, lien vers le repo Navimancie une fois public.
 - L'IA apparaît comme un outil (Claude Code + création de skills), jamais comme « assistance ».
 - Les 2 prototypes perso (échecs, versus local) restent sur le CV mais pas dans le portfolio.
 - Asobo n'est pas une deadline — le CV part dès qu'il est prêt, indépendamment du site.

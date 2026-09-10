@@ -5,6 +5,8 @@
 // Usage : npm run cv:pdf
 //   → private/louis-bich-cv-en.pdf, private/louis-bich-cv-fr.pdf
 //   → aperçus PNG (web + feuille A4) dans private/preview/
+// Comparer des mises en page : npm run cv:pdf -- --layouts=classic,sidebar
+//   → un PDF et un aperçu par langue et par mise en page (suffixe -classic, -sidebar)
 
 import { spawn } from 'node:child_process';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
@@ -22,17 +24,9 @@ const SERVER_TIMEOUT_MS = 20_000;
 const DESKTOP_VIEWPORT = { width: 1280, height: 900 };
 const EXPECTED_PAGES = 1;
 
+// La règle @page de src/styles/cv.css n'a pas de marge : les marges sont dans .cv.
 const MM_TO_PX = 96 / 25.4;
-// Doit rester aligné avec la règle @page de src/styles/cv.css.
-const PAGE = { widthMm: 210, heightMm: 297, marginYMm: 11, marginXMm: 13 };
-const A4_VIEWPORT = {
-	width: Math.round(PAGE.widthMm * MM_TO_PX),
-	height: Math.round(PAGE.heightMm * MM_TO_PX),
-};
-const CONTENT_BOX = {
-	width: Math.floor((PAGE.widthMm - 2 * PAGE.marginXMm) * MM_TO_PX),
-	height: Math.floor((PAGE.heightMm - 2 * PAGE.marginYMm) * MM_TO_PX),
-};
+const A4_VIEWPORT = { width: Math.round(210 * MM_TO_PX), height: Math.floor(297 * MM_TO_PX) };
 const FONT_SIZE_PT = { max: 10.5, min: 8.8, step: 0.1 };
 const FILL_SAFETY = 0.985;
 
@@ -40,6 +34,10 @@ const VERSIONS = [
 	{ lang: 'en', route: '/cv/' },
 	{ lang: 'fr', route: '/fr/cv/' },
 ];
+
+// null = garder la mise en page définie dans la page.
+const layoutsArg = process.argv.find((arg) => arg.startsWith('--layouts='));
+const LAYOUTS = layoutsArg ? layoutsArg.slice('--layouts='.length).split(',').filter(Boolean) : [null];
 
 async function loadContact() {
 	const raw = await readFile(path.join(PRIVATE_DIR, 'contact.json'), 'utf8');
@@ -101,28 +99,35 @@ async function waitForServer(url) {
 async function fillPhone(page, phone) {
 	await page.evaluate((value) => {
 		const slot = document.querySelector('[data-slot="phone"]');
-		if (!slot) throw new Error('Emplacement du téléphone introuvable dans la page');
-		slot.textContent = value;
+		const target = slot?.querySelector('[data-slot-value]');
+		if (!slot || !target) throw new Error('Emplacement du téléphone introuvable dans la page');
+		target.textContent = value;
 		slot.hidden = false;
 	}, phone);
 }
 
 // Plus grande taille de texte qui tient sur une page : le CV reste lisible et
-// remplit la feuille, y compris quand le contenu évolue.
+// remplit la feuille, y compris quand le contenu évolue. La hauteur minimale
+// d'une page (min-height) est neutralisée pendant la mesure.
 async function fitToOnePage(page) {
-	await page.setViewportSize(CONTENT_BOX);
+	await page.setViewportSize(A4_VIEWPORT);
 	const fit = await page.evaluate(
-		({ box, sizes, safety }) => {
+		({ pageHeight, sizes, safety }) => {
 			const sheet = document.querySelector('.cv');
-			const limit = box.height * safety;
-			for (let size = sizes.max; size >= sizes.min - 1e-9; size -= sizes.step) {
-				document.documentElement.style.fontSize = `${size.toFixed(1)}pt`;
-				const height = sheet.getBoundingClientRect().height;
-				if (height <= limit) return { size: Number(size.toFixed(1)), fill: height / box.height };
+			const limit = pageHeight * safety;
+			sheet.style.minHeight = '0px';
+			try {
+				for (let size = sizes.max; size >= sizes.min - 1e-9; size -= sizes.step) {
+					document.documentElement.style.fontSize = `${size.toFixed(1)}pt`;
+					const height = sheet.getBoundingClientRect().height;
+					if (height <= limit) return { size: Number(size.toFixed(1)), fill: height / pageHeight };
+				}
+				return null;
+			} finally {
+				sheet.style.minHeight = '';
 			}
-			return null;
 		},
-		{ box: CONTENT_BOX, sizes: FONT_SIZE_PT, safety: FILL_SAFETY },
+		{ pageHeight: A4_VIEWPORT.height, sizes: FONT_SIZE_PT, safety: FILL_SAFETY },
 	);
 	if (!fit) {
 		throw new Error(`Trop de contenu : le CV ne tient pas sur une page, même à ${FONT_SIZE_PT.min} pt`);
@@ -130,14 +135,25 @@ async function fitToOnePage(page) {
 	return fit;
 }
 
-// Aperçu fidèle : une feuille A4 avec les marges d'impression.
-async function screenshotSheet(page, file) {
-	await page.setViewportSize(A4_VIEWPORT);
-	const frame = await page.addStyleTag({
-		content: `body { box-sizing: border-box; min-height: 100vh; padding: ${PAGE.marginYMm}mm ${PAGE.marginXMm}mm; }`,
-	});
-	await page.screenshot({ path: file, fullPage: true });
-	await frame.evaluate((node) => node.remove());
+async function renderLayout(page, lang, layout) {
+	const suffix = layout && LAYOUTS.length > 1 ? `-${layout}` : '';
+	const label = `${lang}${suffix}`;
+	if (layout) {
+		await page.evaluate((value) => {
+			document.querySelector('.cv').dataset.layout = value;
+		}, layout);
+	}
+	const { size, fill } = await fitToOnePage(page);
+	await page.screenshot({ path: path.join(PREVIEW_DIR, `cv-papier-${label}.png`), fullPage: true });
+
+	const pdf = await page.pdf({ format: 'A4', printBackground: true, preferCSSPageSize: true });
+	const pageCount = (await PDFDocument.load(pdf)).getPageCount();
+	if (pageCount !== EXPECTED_PAGES) {
+		throw new Error(`CV papier (${label}) : ${pageCount} pages au lieu de ${EXPECTED_PAGES}`);
+	}
+	const output = path.join(PRIVATE_DIR, `louis-bich-cv-${label}.pdf`);
+	await writeFile(output, pdf);
+	console.info(`✓ ${path.relative(ROOT, output)} — ${pageCount} page, texte ${size} pt, page remplie à ${Math.round(fill * 100)} %`);
 }
 
 async function renderVersion(browser, { lang, route }, contact) {
@@ -149,17 +165,9 @@ async function renderVersion(browser, { lang, route }, contact) {
 
 		await fillPhone(page, contact.phone);
 		await page.emulateMedia({ media: 'print' });
-		const { size, fill } = await fitToOnePage(page);
-		await screenshotSheet(page, path.join(PREVIEW_DIR, `cv-papier-${lang}.png`));
-
-		const pdf = await page.pdf({ format: 'A4', printBackground: true, preferCSSPageSize: true });
-		const pageCount = (await PDFDocument.load(pdf)).getPageCount();
-		if (pageCount !== EXPECTED_PAGES) {
-			throw new Error(`CV papier (${lang}) : ${pageCount} pages au lieu de ${EXPECTED_PAGES}`);
+		for (const layout of LAYOUTS) {
+			await renderLayout(page, lang, layout);
 		}
-		const output = path.join(PRIVATE_DIR, `louis-bich-cv-${lang}.pdf`);
-		await writeFile(output, pdf);
-		console.info(`✓ ${path.relative(ROOT, output)} — ${pageCount} page, texte ${size} pt, page remplie à ${Math.round(fill * 100)} %`);
 	} finally {
 		await page.close();
 	}

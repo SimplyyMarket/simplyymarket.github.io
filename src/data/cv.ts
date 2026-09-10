@@ -4,12 +4,18 @@
 
 export type Lang = 'fr' | 'en';
 
-export interface Job {
-	title: string;
-	org: string;
-	period: string;
+export interface Project {
+	name: string;
+	role?: string;
+	period?: string;
 	context?: string;
 	bullets: string[];
+}
+
+export interface Job {
+	title: string;
+	period: string;
+	projects: Project[];
 }
 
 export interface Row {
@@ -29,6 +35,7 @@ export interface CvContent {
 	headline: string;
 	location: string;
 	labels: {
+		contact: string;
 		experience: string;
 		education: string;
 		skills: string;
@@ -49,7 +56,11 @@ export const identity = {
 	email: 'louis.bich@gmail.com',
 	website: 'https://simplyymarket.github.io',
 	github: 'https://github.com/SimplyyMarket',
-} as const;
+	// URL du profil LinkedIn ; vide = lien non affiché.
+	linkedin: '',
+	// Chemin public de la photo (ex. '/images/louis-bich.jpg') ; vide = initiales affichées.
+	photo: '',
+};
 
 export const cvFr: CvContent = {
 	lang: 'fr',
@@ -58,6 +69,7 @@ export const cvFr: CvContent = {
 		'Développeur Unity polyvalent — conception et implémentation de mes propres systèmes de jeu, du game design au code.',
 	location: 'Lyon, France',
 	labels: {
+		contact: 'Contact',
 		experience: 'Expérience',
 		education: 'Formation',
 		skills: 'Compétences',
@@ -68,27 +80,37 @@ export const cvFr: CvContent = {
 	},
 	experience: [
 		{
-			title: 'Développeur principal',
-			org: 'Navimancie',
-			period: 'janv. 2026 – aujourd’hui',
-			context: 'Roguelite sous Unity (C#), équipe de 3 · Lead Game Designer au lancement, puis développeur principal',
-			bullets: [
-				'Co-conception de l’architecture technique : systèmes découplés communiquant via un EventBus',
-				'Système d’effets de combat composable : une dizaine d’effets (gel, étourdissement, brûlure, zone…) combinables et déclenchés par des hooks (impact, mort, invocation…)',
-				'IA des unités : pathfinding A* et système de priorités de ciblage',
-				'Outils éditeur Unity : éditeur de cartes, éditeur d’arènes avec timeline des vagues d’ennemis',
-				'Boucle de combat : pioche et mana, placement des cartes sur grille, déploiement des unités en 3D sur l’arène',
-				'Plus de 1 000 tests unitaires automatisés, TDD intégré au workflow de développement',
-			],
-		},
-		{
-			title: 'Game Designer / Game Developer',
-			org: 'Indépendant',
-			period: '2023 – déc. 2025',
-			bullets: [
-				'Roguelite action incubé à la Plaine Images, Lille (6 mois) : référent game design, contribution au développement et à l’architecture technique',
-				'Deux prototypes expérimentaux (un jeu d’échecs, un versus en local) : non aboutis, mais très formateurs',
-				'Participation à de nombreuses game jams',
+			title: 'Développeur et game designer indépendant',
+			period: '2023 – aujourd’hui',
+			projects: [
+				{
+					name: 'Navimancie',
+					role: 'Développeur principal',
+					period: 'janv. 2026 – aujourd’hui',
+					context: 'Roguelite sous Unity (C#), équipe de 3, sortie prévue sur Steam · Lead Game Designer au lancement',
+					bullets: [
+						'Co-conception de l’architecture technique : systèmes découplés communiquant via un EventBus',
+						'Système d’effets de combat composable : une dizaine d’effets (gel, étourdissement, brûlure, zone…) combinables et déclenchés par des hooks (impact, mort, invocation…)',
+						'IA des unités : pathfinding A* et système de priorités de ciblage',
+						'Outils éditeur Unity : éditeur de cartes, éditeur d’arènes avec timeline des vagues d’ennemis',
+						'Boucle de combat : pioche et mana, placement des cartes sur grille, déploiement des unités en 3D sur l’arène',
+						'Plus de 1 000 tests unitaires automatisés, TDD intégré au workflow de développement',
+					],
+				},
+				{
+					name: 'Roguelite action',
+					role: 'Référent game design',
+					period: '6 mois',
+					context: 'Incubé à la Plaine Images, Lille',
+					bullets: ['Contribution au développement et à l’architecture technique'],
+				},
+				{
+					name: 'Prototypes et game jams',
+					bullets: [
+						'Deux prototypes expérimentaux (un jeu d’échecs, un versus en local) : non aboutis, mais très formateurs',
+						'Participation à de nombreuses game jams',
+					],
+				},
 			],
 		},
 	],
@@ -123,6 +145,7 @@ export const cvEn: CvContent = {
 	headline: 'Versatile Unity developer — I design and build my own game systems, from game design to code.',
 	location: 'Lyon, France',
 	labels: {
+		contact: 'Contact',
 		experience: 'Experience',
 		education: 'Education',
 		skills: 'Skills',
@@ -133,27 +156,37 @@ export const cvEn: CvContent = {
 	},
 	experience: [
 		{
-			title: 'Lead Developer',
-			org: 'Navimancie',
-			period: 'Jan 2026 – present',
-			context: 'Roguelite in Unity (C#), team of 3 · Lead Game Designer at launch, then lead developer',
-			bullets: [
-				'Co-designed the technical architecture: decoupled systems communicating through an EventBus',
-				'Composable combat effect system: about ten stackable effects (freeze, stun, burn, area of effect…) triggered by hooks (on hit, on death, on spawn…)',
-				'Unit AI: A* pathfinding and target priority system',
-				'Unity editor tools: card editor and arena editor with an enemy wave timeline',
-				'Combat loop: draw and mana, grid-based card placement, 3D unit deployment on the arena',
-				'1,000+ automated unit tests, TDD built into the development workflow',
-			],
-		},
-		{
-			title: 'Game Designer / Game Developer',
-			org: 'Independent',
-			period: '2023 – Dec 2025',
-			bullets: [
-				'Action roguelite incubated at Plaine Images, Lille (6 months): game design lead, contributed to development and technical architecture',
-				'Two experimental prototypes (a chess game, a local versus game): unfinished, but a huge learning experience',
-				'Took part in many game jams',
+			title: 'Independent Game Developer & Designer',
+			period: '2023 – present',
+			projects: [
+				{
+					name: 'Navimancie',
+					role: 'Lead Developer',
+					period: 'Jan 2026 – present',
+					context: 'Roguelite in Unity (C#), team of 3, Steam release planned · Lead Game Designer at launch',
+					bullets: [
+						'Co-designed the technical architecture: decoupled systems communicating through an EventBus',
+						'Composable combat effect system: about ten stackable effects (freeze, stun, burn, area of effect…) triggered by hooks (on hit, on death, on spawn…)',
+						'Unit AI: A* pathfinding and target priority system',
+						'Unity editor tools: card editor and arena editor with an enemy wave timeline',
+						'Combat loop: draw and mana, grid-based card placement, 3D unit deployment on the arena',
+						'1,000+ automated unit tests, TDD built into the development workflow',
+					],
+				},
+				{
+					name: 'Action roguelite',
+					role: 'Game design lead',
+					period: '6 months',
+					context: 'Incubated at Plaine Images, Lille',
+					bullets: ['Contributed to development and technical architecture'],
+				},
+				{
+					name: 'Prototypes and game jams',
+					bullets: [
+						'Two experimental prototypes (a chess game, a local versus game): unfinished, but a huge learning experience',
+						'Took part in many game jams',
+					],
+				},
 			],
 		},
 	],

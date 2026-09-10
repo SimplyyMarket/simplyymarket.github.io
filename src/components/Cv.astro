@@ -1,93 +1,146 @@
 ---
 // CV rendu en page web ; la même page s'imprime en A4 sur une page (voir cv.css).
+// data-layout choisit la mise en page papier : "classic" (une colonne) ou
+// "sidebar" (colonne latérale). À l'écran, la mise en page reste en une colonne.
 // L'emplacement data-slot="phone" reste vide et masqué dans le build publié :
 // seul scripts/cv-pdf.mjs le remplit, en local, pour le PDF papier.
 import '../styles/cv.css';
+import mapPinIcon from '@tabler/icons/outline/map-pin.svg?raw';
+import mailIcon from '@tabler/icons/outline/mail.svg?raw';
+import phoneIcon from '@tabler/icons/outline/phone.svg?raw';
+import worldIcon from '@tabler/icons/outline/world.svg?raw';
+import linkedinIcon from '@tabler/icons/outline/brand-linkedin.svg?raw';
 import { identity, type CvContent } from '../data/cv';
 
 interface Props {
 	cv: CvContent;
+	layout?: 'classic' | 'sidebar';
 }
 
-const { cv } = Astro.props;
+const { cv, layout = 'sidebar' } = Astro.props;
 const otherLang = cv.lang === 'en' ? 'fr' : 'en';
 const otherHref = cv.lang === 'en' ? '/fr/cv/' : '/cv/';
-const displayUrl = (url: string) => url.replace(/^https?:\/\//, '');
+const displayUrl = (url: string) => url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+const initials = identity.name
+	.split(' ')
+	.map((part) => part[0])
+	.join('');
 ---
 
-<main class="cv">
+<main class="cv" data-layout={layout}>
 	<nav class="cv-topbar screen-only">
 		<a href="/">← {cv.labels.home}</a>
 		<a href={otherHref} hreflang={otherLang} lang={otherLang}>{cv.labels.switchLang}</a>
 	</nav>
 
 	<header class="cv-header">
-		<h1>{identity.name}</h1>
-		<p class="cv-headline">{cv.headline}</p>
-		<ul class="cv-contact">
-			<li>{cv.location}</li>
-			<li><a href={`mailto:${identity.email}`}>{identity.email}</a></li>
-			<li data-slot="phone" hidden></li>
-		</ul>
-		<ul class="cv-contact">
-			<li><a href={identity.website}>{displayUrl(identity.website)}</a></li>
-			<li><a href={identity.github}>{displayUrl(identity.github)}</a></li>
-		</ul>
+		<div class="cv-photo">
+			{identity.photo ? <img src={identity.photo} alt={identity.name} /> : <span aria-hidden="true">{initials}</span>}
+		</div>
+		<div class="cv-identity">
+			<h1>{identity.name}</h1>
+			<p class="cv-headline">{cv.headline}</p>
+		</div>
 	</header>
 
-	<section class="cv-section">
-		<h2>{cv.labels.experience}</h2>
-		{cv.experience.map((job) => (
-			<article class="cv-entry">
-				<div class="cv-entry-head">
-					<h3>{job.title} <span class="cv-org">· {job.org}</span></h3>
-					<span class="cv-period">{job.period}</span>
-				</div>
-				{job.context && <p class="cv-context">{job.context}</p>}
-				<ul class="cv-bullets">
-					{job.bullets.map((bullet) => <li>{bullet}</li>)}
-				</ul>
-			</article>
-		))}
-	</section>
-
-	<section class="cv-section">
-		<h2>{cv.labels.education}</h2>
-		<ul class="cv-rows">
-			{cv.education.map((row) => (
-				<li class="cv-row">
-					<span><strong>{row.title}</strong> <span class="cv-org">· {row.org}</span></span>
-					<span class="cv-period">{row.period}</span>
+	<aside class="cv-side">
+		<section class="cv-section cv-contact-block">
+			<h2>{cv.labels.contact}</h2>
+			<ul class="cv-contact">
+				<li>
+					<span class="cv-icon" aria-hidden="true" set:html={mapPinIcon} />
+					{cv.location}
 				</li>
-			))}
-		</ul>
-	</section>
+				<li>
+					<span class="cv-icon" aria-hidden="true" set:html={mailIcon} />
+					<a href={`mailto:${identity.email}`}>{identity.email}</a>
+				</li>
+				<li data-slot="phone" hidden>
+					<span class="cv-icon" aria-hidden="true" set:html={phoneIcon} />
+					<span data-slot-value></span>
+				</li>
+				<li>
+					<span class="cv-icon" aria-hidden="true" set:html={worldIcon} />
+					<a href={identity.website}>{displayUrl(identity.website)}</a>
+				</li>
+				{identity.linkedin && (
+					<li>
+						<span class="cv-icon" aria-hidden="true" set:html={linkedinIcon} />
+						<a href={identity.linkedin}>{displayUrl(identity.linkedin)}</a>
+					</li>
+				)}
+			</ul>
+		</section>
 
-	<section class="cv-section">
-		<h2>{cv.labels.skills}</h2>
-		<dl class="cv-pairs">
-			{cv.skills.map((pair) => (
-				<>
-					<dt>{pair.label}</dt>
-					<dd>{pair.value}</dd>
-				</>
-			))}
-		</dl>
-	</section>
+		<section class="cv-section cv-skills">
+			<h2>{cv.labels.skills}</h2>
+			<dl class="cv-pairs">
+				{cv.skills.map((pair) => (
+					<>
+						<dt>{pair.label}</dt>
+						<dd>{pair.value}</dd>
+					</>
+				))}
+			</dl>
+		</section>
 
-	<section class="cv-section">
-		<h2>{cv.labels.background}</h2>
-		<ul class="cv-bullets">
-			{cv.background.map((line) => <li>{line}</li>)}
-		</ul>
-	</section>
+		<section class="cv-section cv-languages">
+			<h2>{cv.labels.languages}</h2>
+			<ul class="cv-inline">
+				{cv.languages.map((language) => (
+					<li><strong>{language.label}</strong> ({language.value})</li>
+				))}
+			</ul>
+		</section>
+	</aside>
 
-	<section class="cv-section">
-		<h2>{cv.labels.languages}</h2>
-		<ul class="cv-inline">
-			{cv.languages.map((language) => (
-				<li><strong>{language.label}</strong> ({language.value})</li>
+	<div class="cv-body">
+		<section class="cv-section cv-experience">
+			<h2>{cv.labels.experience}</h2>
+			{cv.experience.map((job) => (
+				<article class="cv-entry">
+					<div class="cv-entry-head">
+						<h3>{job.title}</h3>
+						<span class="cv-period">{job.period}</span>
+					</div>
+					<ul class="cv-projects">
+						{job.projects.map((project) => (
+							<li class="cv-project">
+								<div class="cv-entry-head">
+									<h4>
+										{project.name}
+										{project.role && <span class="cv-org"> · {project.role}</span>}
+									</h4>
+									{project.period && <span class="cv-period">{project.period}</span>}
+								</div>
+								{project.context && <p class="cv-context">{project.context}</p>}
+								<ul class="cv-bullets">
+									{project.bullets.map((bullet) => <li>{bullet}</li>)}
+								</ul>
+							</li>
+						))}
+					</ul>
+				</article>
 			))}
-		</ul>
-	</section>
+		</section>
+
+		<section class="cv-section cv-education">
+			<h2>{cv.labels.education}</h2>
+			<ul class="cv-rows">
+				{cv.education.map((row) => (
+					<li class="cv-row">
+						<span><strong>{row.title}</strong><span class="cv-org"><span class="cv-sep" aria-hidden="true"> · </span>{row.org}</span></span>
+						<span class="cv-period">{row.period}</span>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="cv-section cv-background">
+			<h2>{cv.labels.background}</h2>
+			<ul class="cv-bullets">
+				{cv.background.map((line) => <li>{line}</li>)}
+			</ul>
+		</section>
+	</div>
 </main>

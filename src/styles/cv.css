@@ -1,12 +1,18 @@
-/* CV : à l'écran, une feuille de document centrée ; à l'impression, A4 sur une page. */
+/* CV : à l'écran, une feuille de document centrée ; à l'impression, A4 sur une page.
+   Mise en page de base = une colonne ("classic"). La variante "sidebar" ne
+   s'applique qu'à l'impression, via data-layout sur .cv.
+   Palette : bleu-gris ardoise repris de l'ancien CV. */
 
 :root {
-	--cv-ink: #15171c;
-	--cv-muted: #5a6170;
-	--cv-rule: #e2e5ea;
-	--cv-accent: #0f766e;
+	--cv-ink: #1d2a2e;
+	--cv-muted: #5c6b70;
+	--cv-rule: #d9e2e5;
+	--cv-accent: #57737a;
+	--cv-accent-strong: #3f5a61;
 	--cv-sheet: #ffffff;
-	--cv-backdrop: #eef0f3;
+	--cv-backdrop: #e9eff1;
+	--cv-side-bg: #e6edf0;
+	--cv-side-width: 33%;
 	--cv-font: 'Inter Variable', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
 }
 
@@ -23,8 +29,12 @@ body {
 	-webkit-font-smoothing: antialiased;
 }
 
+/* --- Une colonne : les blocs de .cv-side et .cv-body sont remis dans l'ordre --- */
+
 .cv {
 	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
 	max-width: 860px;
 	margin: 2.5rem auto;
 	padding: 3.5rem 3.75rem;
@@ -35,6 +45,20 @@ body {
 		0 12px 32px rgb(16 24 40 / 8%);
 }
 
+.cv-side,
+.cv-body {
+	display: contents;
+}
+
+.cv-topbar { order: 0; }
+.cv-header { order: 1; }
+.cv-contact-block { order: 2; }
+.cv-experience { order: 3; }
+.cv-education { order: 4; }
+.cv-skills { order: 5; }
+.cv-background { order: 6; }
+.cv-languages { order: 7; }
+
 .cv a {
 	color: inherit;
 	text-decoration-color: var(--cv-rule);
@@ -42,7 +66,7 @@ body {
 }
 
 .cv a:hover {
-	color: var(--cv-accent);
+	color: var(--cv-accent-strong);
 	text-decoration-color: currentColor;
 }
 
@@ -54,12 +78,40 @@ body {
 	color: var(--cv-muted);
 }
 
-.cv-header h1 {
+.cv-header {
+	display: flex;
+	align-items: center;
+	gap: 1.5rem;
+}
+
+.cv-photo {
+	flex: none;
+	display: grid;
+	place-items: center;
+	width: 5.5rem;
+	height: 5.5rem;
+	overflow: hidden;
+	border-radius: 50%;
+	background: var(--cv-side-bg);
+	color: var(--cv-accent-strong);
+	font-size: 1.6rem;
+	font-weight: 600;
+	letter-spacing: 0.03em;
+}
+
+.cv-photo img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.cv-identity h1 {
 	margin: 0;
 	font-size: 2.5rem;
 	font-weight: 700;
 	letter-spacing: -0.025em;
 	line-height: 1.1;
+	color: var(--cv-accent-strong);
 }
 
 .cv-headline {
@@ -69,21 +121,54 @@ body {
 	color: var(--cv-muted);
 }
 
+/* En une colonne, le titre "Contact" est lu par les lecteurs d'écran mais masqué. */
+.cv-contact-block h2 {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+}
+
+.cv-section.cv-contact-block {
+	margin-top: 1rem;
+}
+
 .cv-contact {
 	display: flex;
 	flex-wrap: wrap;
-	gap: 0.25rem 0;
-	margin: 1rem 0 0;
+	gap: 0.3rem 1.25rem;
+	margin: 0;
 	padding: 0;
 	list-style: none;
 	font-size: 0.875rem;
 }
 
-.cv-contact + .cv-contact {
-	margin-top: 0.25rem;
+.cv-contact li {
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
 }
 
-.cv-contact li + li::before,
+/* display: flex écraserait l'attribut hidden : l'emplacement du téléphone doit rester masqué. */
+.cv-contact li[hidden] {
+	display: none;
+}
+
+.cv-icon {
+	display: inline-flex;
+	flex: none;
+	width: 1.05em;
+	height: 1.05em;
+	color: var(--cv-accent);
+}
+
+.cv-icon svg {
+	width: 100%;
+	height: 100%;
+}
+
 .cv-inline li + li::before {
 	content: '·';
 	margin: 0 0.6rem;
@@ -120,7 +205,7 @@ body {
 .cv-entry-head,
 .cv-row {
 	display: grid;
-	grid-template-columns: 1fr auto;
+	grid-template-columns: minmax(0, 1fr) auto;
 	gap: 0 1.5rem;
 	align-items: baseline;
 }
@@ -129,6 +214,25 @@ body {
 	margin: 0;
 	font-size: 1rem;
 	font-weight: 650;
+}
+
+/* Projets regroupés sous une même expérience, reliés par un filet vertical. */
+.cv-projects {
+	margin: 0.5rem 0 0;
+	padding: 0 0 0 0.9rem;
+	border-left: 2px solid var(--cv-rule);
+	list-style: none;
+}
+
+.cv-project + .cv-project {
+	margin-top: 0.75rem;
+}
+
+.cv-project h4 {
+	margin: 0;
+	font-size: 0.9375rem;
+	font-weight: 650;
+	color: var(--cv-accent-strong);
 }
 
 .cv-org {
@@ -150,7 +254,7 @@ body {
 }
 
 .cv-bullets {
-	margin: 0.5rem 0 0;
+	margin: 0.35rem 0 0;
 	padding: 0;
 	list-style: none;
 }
@@ -229,7 +333,11 @@ body {
 		box-shadow: none;
 	}
 
-	.cv-header h1 {
+	.cv-header {
+		align-items: flex-start;
+	}
+
+	.cv-identity h1 {
 		font-size: 2rem;
 	}
 
@@ -239,14 +347,15 @@ body {
 	}
 }
 
+/* --- Impression : A4 sans marge navigateur, les marges sont dans .cv --- */
+
 @page {
 	size: A4;
-	margin: 11mm 13mm;
+	margin: 0;
 }
 
 @media print {
-	/* Valeur par défaut pour une impression manuelle depuis le navigateur ;
-	   scripts/cv-pdf.mjs l'ajuste pour remplir exactement une page. */
+	/* Valeur par défaut pour une impression manuelle ; scripts/cv-pdf.mjs l'ajuste. */
 	html {
 		font-size: 10pt;
 	}
@@ -262,8 +371,9 @@ body {
 
 	.cv {
 		max-width: none;
+		min-height: calc(297mm - 2px);
 		margin: 0;
-		padding: 0;
+		padding: 11mm 13mm;
 		border-radius: 0;
 		box-shadow: none;
 	}
@@ -276,12 +386,21 @@ body {
 		text-decoration: none;
 	}
 
-	.cv-header h1 {
+	.cv-identity h1 {
 		font-size: 2.1rem;
+	}
+
+	.cv-photo {
+		width: 4.8rem;
+		height: 4.8rem;
 	}
 
 	.cv-section {
 		margin-top: 1.1rem;
+	}
+
+	.cv-section.cv-contact-block {
+		margin-top: 0.7rem;
 	}
 
 	.cv-section h2 {
@@ -292,8 +411,110 @@ body {
 		margin-top: 0.75rem;
 	}
 
-	.cv-entry,
+	.cv-project,
 	.cv-row {
 		break-inside: avoid;
+	}
+
+	/* --- Variante "sidebar" : colonne latérale teintée à gauche --- */
+
+	.cv[data-layout='sidebar'] {
+		display: grid;
+		grid-template-columns: var(--cv-side-width) minmax(0, 1fr);
+		grid-template-rows: auto 1fr;
+		grid-template-areas:
+			'photo identity'
+			'side body';
+		padding: 0;
+		background: linear-gradient(
+			to right,
+			var(--cv-side-bg) var(--cv-side-width),
+			var(--cv-sheet) var(--cv-side-width)
+		);
+	}
+
+	.cv[data-layout='sidebar'] .cv-header {
+		display: contents;
+	}
+
+	.cv[data-layout='sidebar'] .cv-photo {
+		grid-area: photo;
+		justify-self: center;
+		align-self: end;
+		width: 7.5rem;
+		height: 7.5rem;
+		margin-top: 11mm;
+		background: var(--cv-sheet);
+	}
+
+	.cv[data-layout='sidebar'] .cv-identity {
+		grid-area: identity;
+		align-self: end;
+		padding: 11mm 12mm 0.4rem 9mm;
+	}
+
+	.cv[data-layout='sidebar'] .cv-side {
+		display: block;
+		grid-area: side;
+		padding: 0 7mm 11mm;
+	}
+
+	.cv[data-layout='sidebar'] .cv-body {
+		display: block;
+		grid-area: body;
+		padding: 0 12mm 11mm 9mm;
+	}
+
+	.cv[data-layout='sidebar'] .cv-section,
+	.cv[data-layout='sidebar'] .cv-section.cv-contact-block {
+		margin-top: 1.1rem;
+	}
+
+	.cv[data-layout='sidebar'] .cv-contact-block h2 {
+		position: static;
+		width: auto;
+		height: auto;
+		overflow: visible;
+		clip: auto;
+		white-space: normal;
+	}
+
+	.cv[data-layout='sidebar'] .cv-contact,
+	.cv[data-layout='sidebar'] .cv-inline,
+	.cv[data-layout='sidebar'] .cv-pairs {
+		display: block;
+		font-size: 0.85rem;
+	}
+
+	.cv[data-layout='sidebar'] .cv-contact li,
+	.cv[data-layout='sidebar'] .cv-inline li {
+		overflow-wrap: anywhere;
+	}
+
+	.cv[data-layout='sidebar'] .cv-contact li + li,
+	.cv[data-layout='sidebar'] .cv-inline li + li,
+	.cv[data-layout='sidebar'] .cv-contact + .cv-contact {
+		margin-top: 0.3rem;
+	}
+
+	.cv[data-layout='sidebar'] .cv-inline li + li::before {
+		content: none;
+	}
+
+	.cv[data-layout='sidebar'] .cv-pairs dd {
+		margin: 0 0 0.45rem;
+	}
+
+	/* Colonne principale étroite : l'établissement passe sous l'intitulé. */
+	.cv[data-layout='sidebar'] .cv-row .cv-org {
+		display: block;
+	}
+
+	.cv[data-layout='sidebar'] .cv-row .cv-sep {
+		display: none;
+	}
+
+	.cv[data-layout='sidebar'] .cv-row + .cv-row {
+		margin-top: 0.5rem;
 	}
 }
