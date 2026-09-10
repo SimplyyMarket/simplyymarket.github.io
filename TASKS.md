@@ -28,7 +28,7 @@ Fonctionnement actuel :
 - [x] `[Ensemble]` Contenu validé : accroche, C++ retiré, 6 réalisations Navimancie, parcours condensé, coquille corrigée
 - [x] `[Ensemble]` Claude Code rangé dans « Outils » (création de skills pour le workflow)
 - [x] `[Ensemble]` Âge retiré de toutes les versions (web et papier)
-- [x] `[Ensemble]` Expérience regroupée : « Développeur et game designer indépendant, 2023 – aujourd'hui », avec 3 projets (Navimancie — sortie Steam prévue, Plaine Images 6 mois, prototypes et game jams)
+- [x] `[Ensemble]` Expérience regroupée : « Développeur et game designer indépendant, 2023 – aujourd'hui », avec 3 projets (Navimancie — sortie Steam prévue, Plaine Images Projet EON, juin – déc. 2025, prototypes et game jams)
 - [x] `[Ensemble]` Liens : site portfolio conservé, profil GitHub retiré (presque vide pour l'instant)
 - [x] `[Moi]` Anglais par défaut : `/cv/` = anglais, `/fr/cv/` = français
 - [x] `[Moi]` Téléphone effacé de l'historique git
@@ -97,4 +97,4 @@ Fonctionnement actuel :
 
 ## Questions résolues
 - GDO → Game Design Overview, projet de fin d'année e-artsup, jeu non abouti → on fournit le GDO seul.
-- Le projet "roguelite incubé Plaine Images" → projet indé antérieur à Navimancie, 6 mois, quitté après scission ; les prototypes perso et les game jams sont hors de ce projet.
+- Le projet "roguelite incubé Plaine Images" → projet indé antérieur à Navimancie, Projet EON, juin – déc. 2025, quitté après scission ; les prototypes perso et les game jams sont hors de ce projet.
