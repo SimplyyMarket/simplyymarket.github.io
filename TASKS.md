@@ -16,7 +16,7 @@ Légende : `[Toi]` action attendue de Louis · `[Moi]` je peux l'exécuter · `[
 
 ## Phase 1 — CV (FR + EN, web + papier) — v2 en relecture
 
-Historique : la v1 RenderCV a été rejetée (mise en page peu soignée, titres anglais sur contenu français, formation illisible, 2 pages, versions papier/numérique quasi identiques). En plus, le téléphone était public (YAML dans le repo + PDF papier servi sur le site) : retiré par le commit `fix: retire le téléphone du repo public et du site`, **mais il reste dans l'historique git** (voir ci-dessous).
+Historique : la v1 RenderCV a été rejetée (mise en page peu soignée, titres anglais sur contenu français, formation illisible, 2 pages, versions papier/numérique quasi identiques). Le téléphone était aussi public (YAML dans le repo + PDF papier servi sur le site) : retiré du site et du repo, puis effacé de l'historique git (réécriture + force push le 11/09/2026, `main` = `e416144`). Sauvegarde de l'ancien historique : `private/backup-avant-reecriture.bundle` (local uniquement).
 
 Fonctionnement actuel :
 - Contenu : `src/data/cv.ts` (FR + EN, sans téléphone ni âge)
@@ -24,18 +24,22 @@ Fonctionnement actuel :
 - Version papier = PDF A4 d'une page, **local uniquement** : `npm run cv:pdf` → `private/louis-bich-cv-fr.pdf` et `private/louis-bich-cv-en.pdf` (téléphone + âge injectés depuis `private/contact.json`, ignoré par git)
 - Garde-fous du script : exactement 1 page (taille du texte ajustée automatiquement entre 8,8 et 10,5 pt) et aucun numéro de téléphone dans le build publié
 
-- [x] `[Ensemble]` Contenu validé : accroche, C++ retiré, 6 réalisations Navimancie, expérience indé recadrée, parcours condensé, coquille corrigée
+- [x] `[Ensemble]` Contenu validé : accroche, C++ retiré, 6 réalisations Navimancie, parcours condensé, coquille corrigée
+- [x] `[Ensemble]` Expérience indé corrigée : Plaine Images = 6 mois, séparée des 2 prototypes perso (non aboutis mais formateurs) et des game jams
+- [x] `[Ensemble]` Claude Code rangé dans « Outils » (création de skills pour le workflow) au lieu de « développement assisté par IA »
 - [x] `[Moi]` Page web FR + EN
 - [x] `[Moi]` PDF papier FR + EN sur une page
+- [x] `[Moi]` Téléphone effacé de l'historique git
+- [ ] `[Toi]` Demander au support GitHub de purger les commits orphelins en cache : l'ancien commit `47ae685` reste lisible par son identifiant complet (https://support.github.com/contact → « Remove sensitive data »)
+- [ ] `[Toi]` Supprimer les anciens runs Actions n°2 à 6 (onglet Actions → ouvrir le run → menu « … » → « Delete workflow run ») : ils pointent vers les anciens commits
 - [ ] `[Toi]` Relire la page web et les 2 PDF papier (design, formulations, traduction anglaise)
 - [ ] `[Toi]` Âge sur le CV papier anglais : le garder ? (peu courant sur un CV anglophone)
-- [ ] `[Toi]` Effacer le téléphone de l'historique git ? (réécriture + force push, irréversible — à confirmer explicitement)
 - [ ] `[Toi]` Username LinkedIn (à ajouter aux liens une fois le profil refait)
 
-## Phase 2 — Site minimal (liens centralisés)
+## Phase 2 — Page d'accueil portfolio (type nrjnicks.github.io) — PROCHAINE ÉTAPE
 
 - [ ] `[Toi]` Fournir/refaire le lien LinkedIn (et tout autre profil à lister)
-- [ ] `[Moi]` Page d'accueil : accroche, lien vers le CV web, lien itch.io (dès dispo), LinkedIn, GitHub, contact
+- [ ] `[Moi]` Page d'accueil : accroche, présentation courte, projets (Navimancie en tête, emplacement démo à venir), lien vers le CV web, itch.io (dès dispo), LinkedIn, GitHub, contact — FR + EN
 - [ ] `[Moi]` Page "à propos" bilingue FR/EN (esport, LAN, enseignement en Chine, langues — le détail que le CV ne peut pas porter)
 - [ ] `[Moi]` Lighthouse/SEO/accessibilité de base via Chrome DevTools MCP
 
@@ -47,7 +51,7 @@ Fonctionnement actuel :
 - [ ] `[Ensemble]` Étude de cas Navimancie sur le site :
   - pitch, rôle de développeur principal dans une équipe de 3, décisions d'architecture
   - 2-3 systèmes en problème → solution → résultat
-  - section "mon usage de l'IA" (workflow `navimancie-plan/execute/verify`)
+  - section "mon usage de l'IA" (création de skills pour le workflow `navimancie-plan/execute/verify`)
 
 ## Phase 4 — Code public
 
@@ -60,7 +64,7 @@ Fonctionnement actuel :
 
 - [ ] `[Toi]` Fournir le GDO (Game Design Overview, projet de fin d'année à e-artsup, jeu non abouti — on montre le GDO seul, pas le jeu)
 - [ ] `[Toi]` Lister les game jams pertinentes (nom, durée, rôle, lien itch.io si buildé)
-- [ ] `[Moi]` Section "Jams & prototypes" compacte (1 GIF par entrée, pas de sur-vente)
+- [ ] `[Moi]` Section "Jams" compacte (1 GIF par entrée, pas de sur-vente) — les 2 prototypes perso ne vont pas dans le portfolio
 - [ ] `[Moi]` Résumé exploitable du GDO (extrait, pas le doc brut)
 
 ## Phase 6 — Polish (en dernier, pas de sur-ingénierie)
@@ -72,12 +76,14 @@ Fonctionnement actuel :
 ---
 
 ## Décisions déjà prises
-- Jeu jouable → itch.io. GitHub Pages sert à centraliser les liens et le CV.
+- Jeu jouable → itch.io. GitHub Pages sert à centraliser les liens, le portfolio et le CV.
 - Un seul repo (`simplyymarket.github.io`) pour le CV et le site.
 - Référence structurelle du site : nrjnicks.github.io (structure seulement, design original).
 - CV : version numérique = page web FR/EN ; version papier = PDF A4 d'une page généré en local (téléphone + âge), jamais publié. RenderCV abandonné.
+- L'IA apparaît comme un outil (Claude Code + création de skills), jamais comme « assistance ».
+- Les 2 prototypes perso (échecs, versus local) restent sur le CV mais pas dans le portfolio.
 - Asobo n'est pas une deadline — le CV part dès qu'il est prêt, indépendamment du site.
 
 ## Questions résolues
 - GDO → Game Design Overview, projet de fin d'année e-artsup, jeu non abouti → on fournit le GDO seul.
-- Le projet "roguelite incubé Plaine Images" → projet indé antérieur à Navimancie, quitté après scission ; expérience distincte.
+- Le projet "roguelite incubé Plaine Images" → projet indé antérieur à Navimancie, 6 mois, quitté après scission ; les prototypes perso et les game jams sont hors de ce projet.
