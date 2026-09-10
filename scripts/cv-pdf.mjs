@@ -1,12 +1,13 @@
-// Génère le CV papier (A4, une page) en anglais et en français à partir des pages
-// /cv/ et /fr/cv/ du site. Local uniquement : le téléphone vient de
-// private/contact.json (ignoré par git) et n'est jamais écrit dans dist/.
+// Génère le CV (A4, une page) en anglais et en français à partir des pages /cv/ et
+// /fr/cv/ du site, en deux versions :
+//   - publique, sans téléphone : public/cv/louis-bich-cv-<lang>.pdf, publiée avec le site
+//     (liée depuis la page d'accueil) ;
+//   - privée, avec téléphone : private/louis-bich-cv-<lang>.pdf, jamais publiée.
+// Le téléphone vient de private/contact.json (ignoré par git).
 //
-// Usage : npm run cv:pdf
-//   → private/louis-bich-cv-en.pdf, private/louis-bich-cv-fr.pdf
-//   → aperçus PNG (web + feuille A4) dans private/preview/
+// Usage : npm run cv:pdf   (aperçus PNG dans private/preview/)
 // Comparer des mises en page : npm run cv:pdf -- --layouts=classic,sidebar
-//   → un PDF et un aperçu par langue et par mise en page (suffixe -classic, -sidebar)
+//   → PDF privés et aperçus uniquement, suffixés par la mise en page
 
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -17,6 +18,7 @@ import { startPreviewServer } from './lib/preview-server.mjs';
 const ROOT = process.cwd();
 const PRIVATE_DIR = path.join(ROOT, 'private');
 const PREVIEW_DIR = path.join(PRIVATE_DIR, 'preview');
+const PUBLIC_CV_DIR = path.join(ROOT, 'public', 'cv');
 const DIST_DIR = path.join(ROOT, 'dist');
 const DESKTOP_VIEWPORT = { width: 1280, height: 900 };
 const EXPECTED_PAGES = 1;
@@ -32,9 +34,9 @@ const VERSIONS = [
 	{ lang: 'fr', route: '/fr/cv/' },
 ];
 
-// null = garder la mise en page définie dans la page.
 const layoutsArg = process.argv.find((arg) => arg.startsWith('--layouts='));
-const LAYOUTS = layoutsArg ? layoutsArg.slice('--layouts='.length).split(',').filter(Boolean) : [null];
+const LAYOUTS = layoutsArg ? layoutsArg.slice('--layouts='.length).split(',').filter(Boolean) : [];
+const IS_COMPARISON = LAYOUTS.length > 0;
 
 async function loadContact() {
 	const raw = await readFile(path.join(PRIVATE_DIR, 'contact.json'), 'utf8');
@@ -46,10 +48,11 @@ async function loadContact() {
 }
 
 const compact = (text) => text.replace(/[\s.\-()+]/g, '');
+const phoneNeedle = (phone) => compact(phone).slice(-9);
 
 // Garde-fou : le build publié ne doit jamais contenir le numéro.
 async function assertNoPhoneInBuild(phone) {
-	const needle = compact(phone).slice(-9);
+	const needle = phoneNeedle(phone);
 	const files = await readdir(DIST_DIR, { recursive: true });
 	for (const file of files.filter((name) => name.endsWith('.html'))) {
 		const html = await readFile(path.join(DIST_DIR, file), 'utf8');
@@ -57,6 +60,15 @@ async function assertNoPhoneInBuild(phone) {
 			throw new Error(`Le téléphone apparaît dans le build public : dist/${file}`);
 		}
 	}
+}
+
+// Garde-fou : le PDF public est imprimé depuis la page, qui ne doit pas afficher le numéro.
+async function assertPhoneAbsentFromPage(page, phone) {
+	const isVisible = await page.evaluate(
+		(needle) => document.body.innerText.replace(/[\s.\-()+]/g, '').includes(needle),
+		phoneNeedle(phone),
+	);
+	if (isVisible) throw new Error('Le téléphone est visible dans la page : PDF public annulé');
 }
 
 async function fillPhone(page, phone) {
@@ -67,6 +79,12 @@ async function fillPhone(page, phone) {
 		target.textContent = value;
 		slot.hidden = false;
 	}, phone);
+}
+
+async function applyLayout(page, layout) {
+	await page.evaluate((value) => {
+		document.querySelector('.cv').dataset.layout = value;
+	}, layout);
 }
 
 // Plus grande taille de texte qui tient sur une page : le CV reste lisible et
@@ -98,25 +116,32 @@ async function fitToOnePage(page) {
 	return fit;
 }
 
-async function renderLayout(page, lang, layout) {
-	const suffix = layout && LAYOUTS.length > 1 ? `-${layout}` : '';
-	const label = `${lang}${suffix}`;
-	if (layout) {
-		await page.evaluate((value) => {
-			document.querySelector('.cv').dataset.layout = value;
-		}, layout);
-	}
+async function printOnePage(page, label) {
 	const { size, fill } = await fitToOnePage(page);
-	await page.screenshot({ path: path.join(PREVIEW_DIR, `cv-papier-${label}.png`), fullPage: true });
-
 	const pdf = await page.pdf({ format: 'A4', printBackground: true, preferCSSPageSize: true });
 	const pageCount = (await PDFDocument.load(pdf)).getPageCount();
 	if (pageCount !== EXPECTED_PAGES) {
-		throw new Error(`CV papier (${label}) : ${pageCount} pages au lieu de ${EXPECTED_PAGES}`);
+		throw new Error(`CV (${label}) : ${pageCount} pages au lieu de ${EXPECTED_PAGES}`);
 	}
-	const output = path.join(PRIVATE_DIR, `louis-bich-cv-${label}.pdf`);
+	return { pdf, size, fill };
+}
+
+async function savePdf(output, { pdf, size, fill }) {
+	await mkdir(path.dirname(output), { recursive: true });
 	await writeFile(output, pdf);
-	console.info(`✓ ${path.relative(ROOT, output)} — ${pageCount} page, texte ${size} pt, page remplie à ${Math.round(fill * 100)} %`);
+	console.info(`✓ ${path.relative(ROOT, output)} — 1 page, texte ${size} pt, page remplie à ${Math.round(fill * 100)} %`);
+}
+
+async function renderPublic(page, lang, phone) {
+	await assertPhoneAbsentFromPage(page, phone);
+	const result = await printOnePage(page, `${lang}, public`);
+	await savePdf(path.join(PUBLIC_CV_DIR, `louis-bich-cv-${lang}.pdf`), result);
+}
+
+async function renderPrivate(page, label) {
+	const result = await printOnePage(page, label);
+	await page.screenshot({ path: path.join(PREVIEW_DIR, `cv-papier-${label}.png`), fullPage: true });
+	await savePdf(path.join(PRIVATE_DIR, `louis-bich-cv-${label}.pdf`), result);
 }
 
 async function renderVersion(browser, baseUrl, { lang, route }, contact) {
@@ -125,12 +150,20 @@ async function renderVersion(browser, baseUrl, { lang, route }, contact) {
 		await page.goto(baseUrl + route, { waitUntil: 'networkidle' });
 		await page.evaluate(() => document.fonts.ready);
 		await page.screenshot({ path: path.join(PREVIEW_DIR, `cv-web-${lang}.png`), fullPage: true });
-
-		await fillPhone(page, contact.phone);
 		await page.emulateMedia({ media: 'print' });
-		for (const layout of LAYOUTS) {
-			await renderLayout(page, lang, layout);
+
+		if (IS_COMPARISON) {
+			await fillPhone(page, contact.phone);
+			for (const layout of LAYOUTS) {
+				await applyLayout(page, layout);
+				await renderPrivate(page, `${lang}-${layout}`);
+			}
+			return;
 		}
+
+		await renderPublic(page, lang, contact.phone);
+		await fillPhone(page, contact.phone);
+		await renderPrivate(page, lang);
 	} finally {
 		await page.close();
 	}

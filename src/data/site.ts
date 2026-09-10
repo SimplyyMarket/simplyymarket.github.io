@@ -8,7 +8,8 @@ export interface HomeContent {
 	lang: Lang;
 	cv: CvContent;
 	homeHref: string;
-	cvHref: string;
+	// PDF du CV sans téléphone, généré par `npm run cv:pdf` dans public/cv/.
+	resumePdfHref: string;
 	otherLang: { lang: Lang; href: string; label: string };
 	meta: { title: string; description: string };
 	nav: { about: string; project: string; experience: string; skills: string; contact: string };
@@ -35,7 +36,7 @@ export const homeEn: HomeContent = {
 	lang: 'en',
 	cv: cvEn,
 	homeHref: '/',
-	cvHref: '/cv/',
+	resumePdfHref: '/cv/louis-bich-cv-en.pdf',
 	otherLang: { lang: 'fr', href: '/fr/', label: 'Français' },
 	meta: {
 		title: 'Louis Bich — Unity developer & game designer',
@@ -70,7 +71,7 @@ export const homeEn: HomeContent = {
 		text: 'I’m looking for Unity developer and game design roles. The quickest way to reach me is by email or on LinkedIn.',
 		emailCta: 'Email me',
 		linkedinCta: 'LinkedIn',
-		resumeCta: 'Printable resume',
+		resumeCta: 'Download resume (PDF)',
 	},
 	footer: 'Built with Astro, hosted on GitHub Pages.',
 };
@@ -79,7 +80,7 @@ export const homeFr: HomeContent = {
 	lang: 'fr',
 	cv: cvFr,
 	homeHref: '/fr/',
-	cvHref: '/fr/cv/',
+	resumePdfHref: '/cv/louis-bich-cv-fr.pdf',
 	otherLang: { lang: 'en', href: '/', label: 'English' },
 	meta: {
 		title: 'Louis Bich — Développeur Unity & game designer',
@@ -114,7 +115,7 @@ export const homeFr: HomeContent = {
 		text: 'Je recherche un poste de développeur Unity ou de game designer. Le plus simple pour me joindre : par email ou sur LinkedIn.',
 		emailCta: 'M’écrire',
 		linkedinCta: 'LinkedIn',
-		resumeCta: 'CV imprimable',
+		resumeCta: 'Télécharger le CV (PDF)',
 	},
 	footer: 'Réalisé avec Astro, hébergé sur GitHub Pages.',
 };

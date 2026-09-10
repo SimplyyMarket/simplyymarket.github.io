@@ -60,7 +60,7 @@ const year = new Date().getFullYear();
 						{home.hero.primaryCta}
 						<span class="icon" aria-hidden="true" set:html={arrowRightIcon} />
 					</a>
-					<a class="button" href={home.cvHref}>
+					<a class="button" href={home.resumePdfHref} target="_blank" rel="noopener">
 						<span class="icon" aria-hidden="true" set:html={fileIcon} />
 						{home.hero.secondaryCta}
 					</a>
@@ -221,7 +221,7 @@ const year = new Date().getFullYear();
 						{home.contact.linkedinCta}
 					</a>
 				)}
-				<a class="button" href={home.cvHref}>
+				<a class="button" href={home.resumePdfHref} download>
 					<span class="icon" aria-hidden="true" set:html={fileIcon} />
 					{home.contact.resumeCta}
 				</a>
