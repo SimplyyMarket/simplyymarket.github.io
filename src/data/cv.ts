@@ -57,7 +57,7 @@ export const identity = {
 	website: 'https://simplyymarket.github.io',
 	github: 'https://github.com/SimplyyMarket',
 	// URL du profil LinkedIn ; vide = lien non affiché.
-	linkedin: '',
+	linkedin: 'https://www.linkedin.com/in/bichlouis/',
 	// Chemin public de la photo (ex. '/images/louis-bich.jpg') ; vide = initiales affichées.
 	photo: '',
 };
@@ -85,9 +85,9 @@ export const cvFr: CvContent = {
 			projects: [
 				{
 					name: 'Navimancie',
-					role: 'Développeur principal',
+					role: 'Co-game designer et développeur principal',
 					period: 'janv. 2026 – aujourd’hui',
-					context: 'Roguelite sous Unity (C#), équipe de 3, sortie prévue sur Steam · Lead Game Designer au lancement',
+					context: 'Roguelite sous Unity (C#), équipe de 3, sortie prévue sur Steam',
 					bullets: [
 						'Co-conception de l’architecture technique : systèmes découplés communiquant via un EventBus',
 						'Système d’effets de combat composable : une dizaine d’effets (gel, étourdissement, brûlure, zone…) combinables et déclenchés par des hooks (impact, mort, invocation…)',
@@ -99,10 +99,13 @@ export const cvFr: CvContent = {
 				},
 				{
 					name: 'Roguelite action',
-					role: 'Référent game design',
+					role: 'Game designer et développeur',
 					period: '6 mois',
 					context: 'Incubé à la Plaine Images, Lille',
-					bullets: ['Contribution au développement et à l’architecture technique'],
+					bullets: [
+						'Conception des mécaniques de jeu',
+						'Contribution au développement et à l’architecture technique',
+					],
 				},
 				{
 					name: 'Prototypes et game jams',
@@ -121,9 +124,8 @@ export const cvFr: CvContent = {
 		{ title: 'Bac S spécialité mathématiques, mention Très Bien', org: 'Collège du Léman, Suisse', period: '2013' },
 	],
 	skills: [
-		{ label: 'Langage', value: 'C#' },
-		{ label: 'Moteurs', value: 'Unity, Unreal Engine' },
-		{ label: 'Méthodes', value: 'TDD, architecture événementielle, outils éditeur' },
+		{ label: 'Développement', value: 'C#, Unity, Unreal Engine, TDD, architecture événementielle' },
+		{ label: 'Game design', value: 'Mécaniques et systèmes de jeu, rédaction de GDD' },
 		{ label: 'Outils', value: 'Git, GitHub, Claude Code (création de skills pour mon workflow), Photoshop, 3ds Max' },
 		{ label: 'Qualités', value: 'Analytique, curieux, adaptable, esprit d’équipe' },
 	],
@@ -161,9 +163,9 @@ export const cvEn: CvContent = {
 			projects: [
 				{
 					name: 'Navimancie',
-					role: 'Lead Developer',
+					role: 'Co-Game Designer & Lead Developer',
 					period: 'Jan 2026 – present',
-					context: 'Roguelite in Unity (C#), team of 3, Steam release planned · Lead Game Designer at launch',
+					context: 'Roguelite in Unity (C#), team of 3, Steam release planned',
 					bullets: [
 						'Co-designed the technical architecture: decoupled systems communicating through an EventBus',
 						'Composable combat effect system: about ten stackable effects (freeze, stun, burn, area of effect…) triggered by hooks (on hit, on death, on spawn…)',
@@ -175,10 +177,10 @@ export const cvEn: CvContent = {
 				},
 				{
 					name: 'Action roguelite',
-					role: 'Game design lead',
+					role: 'Game Designer & Developer',
 					period: '6 months',
 					context: 'Incubated at Plaine Images, Lille',
-					bullets: ['Contributed to development and technical architecture'],
+					bullets: ['Designed the game mechanics', 'Contributed to development and technical architecture'],
 				},
 				{
 					name: 'Prototypes and game jams',
@@ -197,9 +199,8 @@ export const cvEn: CvContent = {
 		{ title: 'Scientific Baccalaureate, Mathematics, highest honours', org: 'Collège du Léman, Switzerland', period: '2013' },
 	],
 	skills: [
-		{ label: 'Language', value: 'C#' },
-		{ label: 'Engines', value: 'Unity, Unreal Engine' },
-		{ label: 'Practices', value: 'TDD, event-driven architecture, editor tooling' },
+		{ label: 'Development', value: 'C#, Unity, Unreal Engine, TDD, event-driven architecture' },
+		{ label: 'Game design', value: 'Game mechanics and systems, GDD writing' },
 		{ label: 'Tools', value: 'Git, GitHub, Claude Code (building custom skills for my workflow), Photoshop, 3ds Max' },
 		{ label: 'Strengths', value: 'Analytical, curious, adaptable, team player' },
 	],

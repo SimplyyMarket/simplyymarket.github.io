@@ -107,12 +107,10 @@ const initials = identity.name
 						{job.projects.map((project) => (
 							<li class="cv-project">
 								<div class="cv-entry-head">
-									<h4>
-										{project.name}
-										{project.role && <span class="cv-org"> · {project.role}</span>}
-									</h4>
+									<h4>{project.name}</h4>
 									{project.period && <span class="cv-period">{project.period}</span>}
 								</div>
+								{project.role && <p class="cv-role">{project.role}</p>}
 								{project.context && <p class="cv-context">{project.context}</p>}
 								<ul class="cv-bullets">
 									{project.bullets.map((bullet) => <li>{bullet}</li>)}

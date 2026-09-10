@@ -235,6 +235,13 @@ body {
 	color: var(--cv-accent-strong);
 }
 
+.cv-role {
+	margin: 0.05rem 0 0;
+	font-size: 0.875rem;
+	font-weight: 550;
+	color: var(--cv-ink);
+}
+
 .cv-org {
 	font-weight: 450;
 	color: var(--cv-muted);
