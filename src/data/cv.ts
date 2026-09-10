@@ -59,7 +59,7 @@ export const identity = {
 	// URL du profil LinkedIn ; vide = lien non affiché.
 	linkedin: 'https://www.linkedin.com/in/bichlouis/',
 	// Chemin public de la photo (ex. '/images/louis-bich.jpg') ; vide = initiales affichées.
-	photo: '',
+	photo: '/images/louis-bich.jpg',
 };
 
 export const cvFr: CvContent = {

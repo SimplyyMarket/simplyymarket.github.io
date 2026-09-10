@@ -43,7 +43,7 @@ Fonctionnement actuel :
 - [x] `[Ensemble]` Mise en page papier choisie : colonne latérale (photo, contact, compétences, langues à gauche)
 - [x] `[Ensemble]` Palette : bleu-gris ardoise repris de l'ancien CV (`#57737a`), teinte pâle pour la colonne latérale
 - [x] `[Moi]` Icônes devant les coordonnées (Tabler, contour)
-- [ ] `[Toi]` Photo (portrait tête et épaules, JPG/PNG) → `public/images/`, renseignée dans `identity.photo`
+- [x] `[Moi]` Photo récupérée depuis l'ancien CV (image intégrée d'origine 900×949, version web 600 px) → `public/images/louis-bich.jpg`, renseignée dans `identity.photo`
 - [ ] `[Ensemble]` Valider les aperçus papier (couleur, icônes, regroupement des projets)
 - [ ] `[Moi]` Version numérique : page d'accueil complète qui défile (type nrjnicks), en anglais avec version française à un clic, même identité visuelle : présentation, projets (Navimancie en tête, emplacement démo à venir), CV, liens, contact
 - [ ] `[Moi]` Page "About" EN/FR (esport, LAN, enseignement en Chine, langues — le détail que le CV ne peut pas porter), ou section de la page d'accueil
