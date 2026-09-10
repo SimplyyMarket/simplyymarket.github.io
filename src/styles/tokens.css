@@ -1,0 +1,13 @@
+/* Identité visuelle commune au CV et au site : bleu-gris ardoise repris de l'ancien CV. */
+
+:root {
+	--color-ink: #1d2a2e;
+	--color-muted: #5c6b70;
+	--color-rule: #d9e2e5;
+	--color-accent: #57737a;
+	--color-accent-strong: #3f5a61;
+	--color-surface: #ffffff;
+	--color-tint: #e6edf0;
+	--color-backdrop: #e9eff1;
+	--font-sans: 'Inter Variable', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+}

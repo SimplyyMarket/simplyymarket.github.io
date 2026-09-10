@@ -1,33 +1,9 @@
 ---
-// Page d'accueil — squelette Phase 0/2. Contenu réel (accroche, liens définitifs,
-// étude de cas Navimancie) à venir en Phase 2-3, voir TASKS.md.
-const links = [
-	{ label: "Jouer à Navimancie (itch.io)", href: "#", ready: false },
-	{ label: "CV", href: "/cv/", ready: true },
-	{ label: "LinkedIn", href: "#", ready: false },
-	{ label: "GitHub", href: "https://github.com/SimplyyMarket", ready: true },
-];
+import Base from '../layouts/Base.astro';
+import Home from '../components/Home.astro';
+import { homeEn } from '../data/site';
 ---
 
-<html lang="fr">
-	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>Louis Bich — Développeur Unity</title>
-	</head>
-	<body>
-		<main>
-			<h1>Louis Bich</h1>
-			<p>Développeur Unity — gameplay, systèmes, game design. (TODO : accroche définitive, Phase 2)</p>
-
-			<ul>
-				{links.map((link) => (
-					<li>
-						<a href={link.href} aria-disabled={!link.ready}>{link.label}</a>
-						{!link.ready && <em> (lien à venir)</em>}
-					</li>
-				))}
-			</ul>
-		</main>
-	</body>
-</html>
+<Base lang="en" title={homeEn.meta.title} description={homeEn.meta.description}>
+	<Home home={homeEn} />
+</Base>

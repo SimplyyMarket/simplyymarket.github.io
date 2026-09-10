@@ -44,9 +44,11 @@ Fonctionnement actuel :
 - [x] `[Ensemble]` Palette : bleu-gris ardoise repris de l'ancien CV (`#57737a`), teinte pâle pour la colonne latérale
 - [x] `[Moi]` Icônes devant les coordonnées (Tabler, contour)
 - [x] `[Moi]` Photo récupérée depuis l'ancien CV (image intégrée d'origine 900×949, version web 600 px) → `public/images/louis-bich.jpg`, renseignée dans `identity.photo`
-- [ ] `[Ensemble]` Valider les aperçus papier (couleur, icônes, regroupement des projets)
-- [ ] `[Moi]` Version numérique : page d'accueil complète qui défile (type nrjnicks), en anglais avec version française à un clic, même identité visuelle : présentation, projets (Navimancie en tête, emplacement démo à venir), CV, liens, contact
-- [ ] `[Moi]` Page "About" EN/FR (esport, LAN, enseignement en Chine, langues — le détail que le CV ne peut pas porter), ou section de la page d'accueil
+- [x] `[Ensemble]` CV papier validé
+- [x] `[Moi]` Page d'accueil v1 qui défile (`/` en anglais, `/fr/`) : hero, À propos, projet phare Navimancie (emplacement vidéo), parcours, formation, parcours compétitif, compétences, contact — contenu tiré de `cv.ts` + `site.ts`
+- [x] `[Moi]` Captures du site pour relecture : `npm run site:shots` → `private/preview/site-*.png`
+- [ ] `[Toi]` Relire la page d'accueil, en particulier les textes nouveaux : paragraphes « À propos », pitch de Navimancie, phrase de contact
+- [ ] `[Moi]` Publication groupée : CV à jour + page d'accueil (après validation)
 - [ ] `[Moi]` Lighthouse/SEO/accessibilité de base via Chrome DevTools MCP
 
 ## Phase 3 — Démo Navimancie (dépend du build)

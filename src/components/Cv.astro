@@ -29,7 +29,7 @@ const initials = identity.name
 
 <main class="cv" data-layout={layout}>
 	<nav class="cv-topbar screen-only">
-		<a href="/">← {cv.labels.home}</a>
+		<a href={cv.lang === 'en' ? '/' : '/fr/'}>← {cv.labels.home}</a>
 		<a href={otherHref} hreflang={otherLang} lang={otherLang}>{cv.labels.switchLang}</a>
 	</nav>
 

@@ -1,0 +1,237 @@
+---
+// Page d'accueil portfolio : une seule page qui défile (à propos, projet phare,
+// parcours, compétences, contact). Contenu : src/data/site.ts + src/data/cv.ts.
+import '../styles/home.css';
+import mailIcon from '@tabler/icons/outline/mail.svg?raw';
+import linkedinIcon from '@tabler/icons/outline/brand-linkedin.svg?raw';
+import mapPinIcon from '@tabler/icons/outline/map-pin.svg?raw';
+import playIcon from '@tabler/icons/outline/player-play.svg?raw';
+import arrowRightIcon from '@tabler/icons/outline/arrow-right.svg?raw';
+import fileIcon from '@tabler/icons/outline/file-text.svg?raw';
+import { identity, type Project } from '../data/cv';
+import { FEATURED_PROJECT, type HomeContent } from '../data/site';
+
+interface Props {
+	home: HomeContent;
+}
+
+const { home } = Astro.props;
+const { cv } = home;
+
+function findFeaturedProject(): Project {
+	const project = cv.experience.flatMap((job) => job.projects).find((item) => item.name === FEATURED_PROJECT);
+	if (!project) throw new Error(`Projet phare "${FEATURED_PROJECT}" introuvable dans cv.ts (${cv.lang})`);
+	return project;
+}
+
+const featured = findFeaturedProject();
+const initials = identity.name
+	.split(' ')
+	.map((part) => part[0])
+	.join('');
+const year = new Date().getFullYear();
+---
+
+<header class="site-header">
+	<div class="site-container site-header-inner">
+		<a class="site-brand" href={home.homeHref}>{identity.name}</a>
+		<nav class="site-nav" aria-label="Sections">
+			<a href="#about">{home.nav.about}</a>
+			<a href="#project">{home.nav.project}</a>
+			<a href="#experience">{home.nav.experience}</a>
+			<a href="#skills">{home.nav.skills}</a>
+			<a href="#contact">{home.nav.contact}</a>
+		</nav>
+		<a class="site-lang" href={home.otherLang.href} hreflang={home.otherLang.lang} lang={home.otherLang.lang}>
+			{home.otherLang.label}
+		</a>
+	</div>
+</header>
+
+<main>
+	<section class="hero">
+		<div class="site-container hero-inner">
+			<div class="hero-text">
+				<p class="eyebrow">{home.hero.eyebrow}</p>
+				<h1>{identity.name}</h1>
+				<p class="hero-lead">{cv.headline}</p>
+				<div class="actions">
+					<a class="button button-primary" href="#project">
+						{home.hero.primaryCta}
+						<span class="icon" aria-hidden="true" set:html={arrowRightIcon} />
+					</a>
+					<a class="button" href={home.cvHref}>
+						<span class="icon" aria-hidden="true" set:html={fileIcon} />
+						{home.hero.secondaryCta}
+					</a>
+				</div>
+				<ul class="hero-links">
+					<li><span class="icon" aria-hidden="true" set:html={mapPinIcon} />{cv.location}</li>
+					<li>
+						<a href={`mailto:${identity.email}`}><span class="icon" aria-hidden="true" set:html={mailIcon} />{identity.email}</a>
+					</li>
+					{identity.linkedin && (
+						<li>
+							<a href={identity.linkedin}><span class="icon" aria-hidden="true" set:html={linkedinIcon} />LinkedIn</a>
+						</li>
+					)}
+				</ul>
+			</div>
+			<div class="hero-photo">
+				{identity.photo ? (
+					<img src={identity.photo} alt={identity.name} width="600" height="633" />
+				) : (
+					<span aria-hidden="true">{initials}</span>
+				)}
+			</div>
+		</div>
+	</section>
+
+	<section id="about" class="section">
+		<div class="site-container about">
+			<h2 class="section-title">{home.about.title}</h2>
+			<div class="about-body">
+				{home.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+				<ul class="chips">
+					{home.about.facts.map((fact) => <li>{fact}</li>)}
+				</ul>
+			</div>
+		</div>
+	</section>
+
+	<section id="project" class="section section-tinted">
+		<div class="site-container">
+			<p class="eyebrow">{home.project.eyebrow}</p>
+			<article class="project-card">
+				<div class="project-media">
+					<span class="project-media-icon" aria-hidden="true" set:html={playIcon} />
+					<p class="project-media-title">{home.project.mediaTitle}</p>
+					<p class="project-media-text">{home.project.mediaText}</p>
+				</div>
+				<div class="project-body">
+					<div class="project-intro">
+						<h2>{home.project.name}</h2>
+						<p class="project-genre">{home.project.genre}</p>
+						<p class="project-meta">{featured.role} · {featured.period}</p>
+						<p class="project-meta">{home.project.status}</p>
+						<p class="project-pitch">{home.project.pitch}</p>
+						<ul class="chips">
+							{home.project.tags.map((tag) => <li>{tag}</li>)}
+						</ul>
+					</div>
+					<div class="project-highlights">
+						<h3>{home.project.highlightsTitle}</h3>
+						<ul class="bullets">
+							{featured.bullets.map((bullet) => <li>{bullet}</li>)}
+						</ul>
+					</div>
+				</div>
+			</article>
+		</div>
+	</section>
+
+	<section id="experience" class="section">
+		<div class="site-container">
+			<h2 class="section-title">{home.experience.title}</h2>
+			{cv.experience.map((job) => (
+				<div class="timeline">
+					<div class="line-head">
+						<h3>{job.title}</h3>
+						<span class="period">{job.period}</span>
+					</div>
+					<ol class="timeline-items">
+						{job.projects.map((project) => (
+							<li class="timeline-item">
+								<div class="line-head">
+									<h4>{project.name}</h4>
+									{project.period && <span class="period">{project.period}</span>}
+								</div>
+								{project.role && <p class="role">{project.role}</p>}
+								{project.context && <p class="context">{project.context}</p>}
+								{project.name === FEATURED_PROJECT ? (
+									<a class="more" href="#project">{home.experience.featuredNote} ↑</a>
+								) : (
+									<ul class="bullets">
+										{project.bullets.map((bullet) => <li>{bullet}</li>)}
+									</ul>
+								)}
+							</li>
+						))}
+					</ol>
+				</div>
+			))}
+
+			<div class="two-cols">
+				<div>
+					<h3 class="subsection-title">{cv.labels.education}</h3>
+					<ul class="rows">
+						{cv.education.map((row) => (
+							<li class="line-head">
+								<div>
+									<strong>{row.title}</strong>
+									<span class="muted">{row.org}</span>
+								</div>
+								<span class="period">{row.period}</span>
+							</li>
+						))}
+					</ul>
+				</div>
+				<div>
+					<h3 class="subsection-title">{cv.labels.background}</h3>
+					<ul class="bullets">
+						{cv.background.map((line) => <li>{line}</li>)}
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section id="skills" class="section section-tinted">
+		<div class="site-container">
+			<h2 class="section-title">{home.skills.title}</h2>
+			<div class="skills-grid">
+				{cv.skills.map((skill) => (
+					<div class="skill-card">
+						<h3>{skill.label}</h3>
+						<p>{skill.value}</p>
+					</div>
+				))}
+			</div>
+			<h3 class="subsection-title">{home.skills.languagesTitle}</h3>
+			<ul class="chips chips-flush">
+				{cv.languages.map((language) => (
+					<li><strong>{language.label}</strong> · {language.value}</li>
+				))}
+			</ul>
+		</div>
+	</section>
+
+	<section id="contact" class="section section-contact">
+		<div class="site-container contact">
+			<h2>{home.contact.title}</h2>
+			<p>{home.contact.text}</p>
+			<div class="actions">
+				<a class="button button-primary" href={`mailto:${identity.email}`}>
+					<span class="icon" aria-hidden="true" set:html={mailIcon} />
+					{home.contact.emailCta}
+				</a>
+				{identity.linkedin && (
+					<a class="button" href={identity.linkedin}>
+						<span class="icon" aria-hidden="true" set:html={linkedinIcon} />
+						{home.contact.linkedinCta}
+					</a>
+				)}
+				<a class="button" href={home.cvHref}>
+					<span class="icon" aria-hidden="true" set:html={fileIcon} />
+					{home.contact.resumeCta}
+				</a>
+			</div>
+		</div>
+	</section>
+</main>
+
+<footer class="site-footer">
+	<div class="site-container">
+		<p>© {year} {identity.name} · {home.footer}</p>
+	</div>
+</footer>

@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import Home from '../../components/Home.astro';
+import { homeFr } from '../../data/site';
+---
+
+<Base lang="fr" title={homeFr.meta.title} description={homeFr.meta.description}>
+	<Home home={homeFr} />
+</Base>

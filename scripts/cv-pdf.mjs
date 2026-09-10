@@ -8,19 +8,16 @@
 // Comparer des mises en page : npm run cv:pdf -- --layouts=classic,sidebar
 //   → un PDF et un aperçu par langue et par mise en page (suffixe -classic, -sidebar)
 
-import { spawn } from 'node:child_process';
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { chromium } from 'playwright-core';
 import { PDFDocument } from 'pdf-lib';
+import { startPreviewServer } from './lib/preview-server.mjs';
 
 const ROOT = process.cwd();
 const PRIVATE_DIR = path.join(ROOT, 'private');
 const PREVIEW_DIR = path.join(PRIVATE_DIR, 'preview');
 const DIST_DIR = path.join(ROOT, 'dist');
-const PORT = 4329;
-const BASE_URL = `http://localhost:${PORT}`;
-const SERVER_TIMEOUT_MS = 20_000;
 const DESKTOP_VIEWPORT = { width: 1280, height: 900 };
 const EXPECTED_PAGES = 1;
 
@@ -60,40 +57,6 @@ async function assertNoPhoneInBuild(phone) {
 			throw new Error(`Le téléphone apparaît dans le build public : dist/${file}`);
 		}
 	}
-}
-
-// Point d'entrée de la CLI lu depuis le package.json d'Astro (il change selon les versions).
-async function resolveAstroCli() {
-	const astroDir = path.join(ROOT, 'node_modules', 'astro');
-	const { bin } = JSON.parse(await readFile(path.join(astroDir, 'package.json'), 'utf8'));
-	const entry = typeof bin === 'string' ? bin : bin?.astro;
-	if (!entry) throw new Error('CLI Astro introuvable dans node_modules/astro/package.json');
-	return path.join(astroDir, entry);
-}
-
-async function startPreviewServer() {
-	const astroCli = await resolveAstroCli();
-	const server = spawn(process.execPath, [astroCli, 'preview', '--port', String(PORT)], {
-		stdio: ['ignore', 'ignore', 'inherit'],
-	});
-	server.on('exit', (code) => {
-		if (code) console.error(`✗ astro preview s'est arrêté (code ${code})`);
-	});
-	return server;
-}
-
-async function waitForServer(url) {
-	const deadline = Date.now() + SERVER_TIMEOUT_MS;
-	while (Date.now() < deadline) {
-		try {
-			const response = await fetch(url);
-			if (response.ok) return;
-		} catch {
-			// serveur pas encore prêt, on réessaie
-		}
-		await new Promise((resolve) => setTimeout(resolve, 300));
-	}
-	throw new Error(`Serveur de preview injoignable après ${SERVER_TIMEOUT_MS} ms : ${url}`);
 }
 
 async function fillPhone(page, phone) {
@@ -156,10 +119,10 @@ async function renderLayout(page, lang, layout) {
 	console.info(`✓ ${path.relative(ROOT, output)} — ${pageCount} page, texte ${size} pt, page remplie à ${Math.round(fill * 100)} %`);
 }
 
-async function renderVersion(browser, { lang, route }, contact) {
+async function renderVersion(browser, baseUrl, { lang, route }, contact) {
 	const page = await browser.newPage({ viewport: DESKTOP_VIEWPORT });
 	try {
-		await page.goto(BASE_URL + route, { waitUntil: 'networkidle' });
+		await page.goto(baseUrl + route, { waitUntil: 'networkidle' });
 		await page.evaluate(() => document.fonts.ready);
 		await page.screenshot({ path: path.join(PREVIEW_DIR, `cv-web-${lang}.png`), fullPage: true });
 
@@ -178,17 +141,16 @@ async function main() {
 	await assertNoPhoneInBuild(contact.phone);
 	await mkdir(PREVIEW_DIR, { recursive: true });
 
-	const server = await startPreviewServer();
+	const { baseUrl, stop } = await startPreviewServer(ROOT, VERSIONS[0].route);
 	let browser;
 	try {
-		await waitForServer(BASE_URL + VERSIONS[0].route);
 		browser = await chromium.launch({ channel: 'msedge' });
 		for (const version of VERSIONS) {
-			await renderVersion(browser, version, contact);
+			await renderVersion(browser, baseUrl, version, contact);
 		}
 	} finally {
 		await browser?.close();
-		server.kill();
+		await stop();
 	}
 }
 

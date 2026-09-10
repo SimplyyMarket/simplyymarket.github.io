@@ -1,19 +1,21 @@
 /* CV : à l'écran, une feuille de document centrée ; à l'impression, A4 sur une page.
    Mise en page de base = une colonne ("classic"). La variante "sidebar" ne
    s'applique qu'à l'impression, via data-layout sur .cv.
-   Palette : bleu-gris ardoise repris de l'ancien CV. */
+   Palette : voir tokens.css (commune au site). */
+
+@import './tokens.css';
 
 :root {
-	--cv-ink: #1d2a2e;
-	--cv-muted: #5c6b70;
-	--cv-rule: #d9e2e5;
-	--cv-accent: #57737a;
-	--cv-accent-strong: #3f5a61;
-	--cv-sheet: #ffffff;
-	--cv-backdrop: #e9eff1;
-	--cv-side-bg: #e6edf0;
+	--cv-ink: var(--color-ink);
+	--cv-muted: var(--color-muted);
+	--cv-rule: var(--color-rule);
+	--cv-accent: var(--color-accent);
+	--cv-accent-strong: var(--color-accent-strong);
+	--cv-sheet: var(--color-surface);
+	--cv-backdrop: var(--color-backdrop);
+	--cv-side-bg: var(--color-tint);
 	--cv-side-width: 33%;
-	--cv-font: 'Inter Variable', 'Segoe UI', system-ui, -apple-system, Roboto, Arial, sans-serif;
+	--cv-font: var(--font-sans);
 }
 
 html {
