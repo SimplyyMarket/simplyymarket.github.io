@@ -14,33 +14,33 @@ Légende : `[Toi]` action attendue de Louis · `[Moi]` je peux l'exécuter · `[
 - [x] `[Moi]` Workflow GitHub Actions : build Astro → déploiement Pages (`withastro/action`)
 - [x] `[Toi]` Repo `simplyymarket.github.io` créé à la main, Pages en source "GitHub Actions" (pas besoin de `gh` CLI)
 
-## Phase 1 — CV (FR + EN, web + papier) — v2 en relecture
+## Phase 1 — CV (EN + FR, web + papier) — v2 en relecture
 
-Historique : la v1 RenderCV a été rejetée (mise en page peu soignée, titres anglais sur contenu français, formation illisible, 2 pages, versions papier/numérique quasi identiques). Le téléphone était aussi public (YAML dans le repo + PDF papier servi sur le site) : retiré du site et du repo, puis effacé de l'historique git (réécriture + force push le 11/09/2026, `main` = `e416144`). Sauvegarde de l'ancien historique : `private/backup-avant-reecriture.bundle` (local uniquement).
+Historique : la v1 RenderCV a été rejetée (mise en page peu soignée, titres anglais sur contenu français, formation illisible, 2 pages, versions papier/numérique quasi identiques). Le téléphone était aussi public (YAML dans le repo + PDF papier servi sur le site) : retiré du site et du repo, puis effacé de l'historique git (réécriture + force push le 11/09/2026). Sauvegarde de l'ancien historique : `private/backup-avant-reecriture.bundle` (local uniquement).
 
 Fonctionnement actuel :
-- Contenu : `src/data/cv.ts` (FR + EN, sans téléphone ni âge)
-- Version numérique = page web : `/cv/` (FR) et `/en/cv/` (EN)
-- Version papier = PDF A4 d'une page, **local uniquement** : `npm run cv:pdf` → `private/louis-bich-cv-fr.pdf` et `private/louis-bich-cv-en.pdf` (téléphone + âge injectés depuis `private/contact.json`, ignoré par git)
+- Contenu : `src/data/cv.ts` (anglais + français, sans téléphone ni âge)
+- Version numérique = page web : `/cv/` (anglais, par défaut) et `/fr/cv/` (français)
+- Version papier = PDF A4 d'une page, **local uniquement** : `npm run cv:pdf` → `private/louis-bich-cv-en.pdf` et `private/louis-bich-cv-fr.pdf` (téléphone injecté depuis `private/contact.json`, ignoré par git)
 - Garde-fous du script : exactement 1 page (taille du texte ajustée automatiquement entre 8,8 et 10,5 pt) et aucun numéro de téléphone dans le build publié
 
 - [x] `[Ensemble]` Contenu validé : accroche, C++ retiré, 6 réalisations Navimancie, parcours condensé, coquille corrigée
 - [x] `[Ensemble]` Expérience indé corrigée : Plaine Images = 6 mois, séparée des 2 prototypes perso (non aboutis mais formateurs) et des game jams
 - [x] `[Ensemble]` Claude Code rangé dans « Outils » (création de skills pour le workflow) au lieu de « développement assisté par IA »
-- [x] `[Moi]` Page web FR + EN
-- [x] `[Moi]` PDF papier FR + EN sur une page
+- [x] `[Ensemble]` Âge retiré de toutes les versions (web et papier)
+- [x] `[Moi]` Anglais par défaut : `/cv/` = anglais, `/fr/cv/` = français
+- [x] `[Moi]` PDF papier EN + FR sur une page
 - [x] `[Moi]` Téléphone effacé de l'historique git
 - [ ] `[Toi]` Demander au support GitHub de purger les commits orphelins en cache : l'ancien commit `47ae685` reste lisible par son identifiant complet (https://support.github.com/contact → « Remove sensitive data »)
 - [ ] `[Toi]` Supprimer les anciens runs Actions n°2 à 6 (onglet Actions → ouvrir le run → menu « … » → « Delete workflow run ») : ils pointent vers les anciens commits
 - [ ] `[Toi]` Relire la page web et les 2 PDF papier (design, formulations, traduction anglaise)
-- [ ] `[Toi]` Âge sur le CV papier anglais : le garder ? (peu courant sur un CV anglophone)
 - [ ] `[Toi]` Username LinkedIn (à ajouter aux liens une fois le profil refait)
 
-## Phase 2 — Page d'accueil portfolio (type nrjnicks.github.io) — PROCHAINE ÉTAPE
+## Phase 2 — Page d'accueil portfolio (type nrjnicks.github.io) — après validation du CV
 
 - [ ] `[Toi]` Fournir/refaire le lien LinkedIn (et tout autre profil à lister)
-- [ ] `[Moi]` Page d'accueil : accroche, présentation courte, projets (Navimancie en tête, emplacement démo à venir), lien vers le CV web, itch.io (dès dispo), LinkedIn, GitHub, contact — FR + EN
-- [ ] `[Moi]` Page "à propos" bilingue FR/EN (esport, LAN, enseignement en Chine, langues — le détail que le CV ne peut pas porter)
+- [ ] `[Moi]` Page d'accueil en anglais (version française à un clic) : accroche, présentation courte, projets (Navimancie en tête, emplacement démo à venir), lien vers le CV web, itch.io (dès dispo), LinkedIn, GitHub, contact
+- [ ] `[Moi]` Page "About" EN/FR (esport, LAN, enseignement en Chine, langues — le détail que le CV ne peut pas porter)
 - [ ] `[Moi]` Lighthouse/SEO/accessibilité de base via Chrome DevTools MCP
 
 ## Phase 3 — Démo Navimancie (dépend du build)
@@ -78,8 +78,9 @@ Fonctionnement actuel :
 ## Décisions déjà prises
 - Jeu jouable → itch.io. GitHub Pages sert à centraliser les liens, le portfolio et le CV.
 - Un seul repo (`simplyymarket.github.io`) pour le CV et le site.
+- Site en anglais par défaut (international, montre le bilinguisme), version française disponible à un clic.
 - Référence structurelle du site : nrjnicks.github.io (structure seulement, design original).
-- CV : version numérique = page web FR/EN ; version papier = PDF A4 d'une page généré en local (téléphone + âge), jamais publié. RenderCV abandonné.
+- CV : version numérique = page web EN/FR ; version papier = PDF A4 d'une page généré en local (avec téléphone), jamais publié. Pas d'âge nulle part. RenderCV abandonné.
 - L'IA apparaît comme un outil (Claude Code + création de skills), jamais comme « assistance ».
 - Les 2 prototypes perso (échecs, versus local) restent sur le CV mais pas dans le portfolio.
 - Asobo n'est pas une deadline — le CV part dès qu'il est prêt, indépendamment du site.

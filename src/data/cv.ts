@@ -1,6 +1,6 @@
-// Contenu du CV : source unique pour la page web (/cv/ et /en/cv/) et le PDF papier.
-// Pas de téléphone ni d'âge ici : ils sont injectés en local au moment de générer
-// le PDF papier (scripts/cv-pdf.mjs + private/contact.json, ignoré par git).
+// Contenu du CV : source unique pour la page web (/cv/ en anglais, /fr/cv/ en français)
+// et le PDF papier. Pas de téléphone ici : il est injecté en local au moment de
+// générer le PDF papier (scripts/cv-pdf.mjs + private/contact.json, ignoré par git).
 
 export type Lang = 'fr' | 'en';
 
@@ -36,7 +36,6 @@ export interface CvContent {
 		languages: string;
 		home: string;
 		switchLang: string;
-		ageTemplate: string;
 	};
 	experience: Job[];
 	education: Row[];
@@ -66,7 +65,6 @@ export const cvFr: CvContent = {
 		languages: 'Langues',
 		home: 'Accueil',
 		switchLang: 'English version',
-		ageTemplate: '{n} ans',
 	},
 	experience: [
 		{
@@ -104,7 +102,7 @@ export const cvFr: CvContent = {
 		{ label: 'Langage', value: 'C#' },
 		{ label: 'Moteurs', value: 'Unity, Unreal Engine' },
 		{ label: 'Méthodes', value: 'TDD, architecture événementielle, outils éditeur' },
-		{ label: 'Outils', value: 'Git, GitHub, Claude Code (création de skills pour mon workflow), Photoshop, 3ds Max' },
+		{ label: 'Outils', value: 'Git, GitHub, Claude Code (création de skills pour mon workflow), Photoshop, 3ds Max' },
 		{ label: 'Qualités', value: 'Analytique, curieux, adaptable, esprit d’équipe' },
 	],
 	background: [
@@ -132,7 +130,6 @@ export const cvEn: CvContent = {
 		languages: 'Languages',
 		home: 'Home',
 		switchLang: 'Version française',
-		ageTemplate: '{n} years old',
 	},
 	experience: [
 		{
@@ -170,7 +167,7 @@ export const cvEn: CvContent = {
 		{ label: 'Language', value: 'C#' },
 		{ label: 'Engines', value: 'Unity, Unreal Engine' },
 		{ label: 'Practices', value: 'TDD, event-driven architecture, editor tooling' },
-		{ label: 'Tools', value: 'Git, GitHub, Claude Code (building custom skills for my workflow), Photoshop, 3ds Max' },
+		{ label: 'Tools', value: 'Git, GitHub, Claude Code (building custom skills for my workflow), Photoshop, 3ds Max' },
 		{ label: 'Strengths', value: 'Analytical, curious, adaptable, team player' },
 	],
 	background: [

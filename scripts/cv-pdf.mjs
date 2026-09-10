@@ -1,9 +1,9 @@
-// Génère le CV papier (A4, une page) en français et en anglais à partir des pages
-// /cv/ et /en/cv/ du site. Local uniquement : le téléphone et l'âge viennent de
-// private/contact.json (ignoré par git) et ne sont jamais écrits dans dist/.
+// Génère le CV papier (A4, une page) en anglais et en français à partir des pages
+// /cv/ et /fr/cv/ du site. Local uniquement : le téléphone vient de
+// private/contact.json (ignoré par git) et n'est jamais écrit dans dist/.
 //
 // Usage : npm run cv:pdf
-//   → private/louis-bich-cv-fr.pdf, private/louis-bich-cv-en.pdf
+//   → private/louis-bich-cv-en.pdf, private/louis-bich-cv-fr.pdf
 //   → aperçus PNG (web + feuille A4) dans private/preview/
 
 import { spawn } from 'node:child_process';
@@ -37,15 +37,15 @@ const FONT_SIZE_PT = { max: 10.5, min: 8.8, step: 0.1 };
 const FILL_SAFETY = 0.985;
 
 const VERSIONS = [
-	{ lang: 'fr', route: '/cv/' },
-	{ lang: 'en', route: '/en/cv/' },
+	{ lang: 'en', route: '/cv/' },
+	{ lang: 'fr', route: '/fr/cv/' },
 ];
 
 async function loadContact() {
 	const raw = await readFile(path.join(PRIVATE_DIR, 'contact.json'), 'utf8');
 	const contact = JSON.parse(raw);
-	if (typeof contact.phone !== 'string' || !Number.isInteger(contact.age)) {
-		throw new Error('private/contact.json doit contenir { "phone": "...", "age": 31 }');
+	if (typeof contact.phone !== 'string' || contact.phone.trim() === '') {
+		throw new Error('private/contact.json doit contenir { "phone": "..." }');
 	}
 	return contact;
 }
@@ -98,18 +98,13 @@ async function waitForServer(url) {
 	throw new Error(`Serveur de preview injoignable après ${SERVER_TIMEOUT_MS} ms : ${url}`);
 }
 
-async function fillPrivateSlots(page, contact) {
-	await page.evaluate(({ phone, age }) => {
-		const reveal = (slot, text) => {
-			const element = document.querySelector(`[data-slot="${slot}"]`);
-			if (!element) throw new Error(`Emplacement "${slot}" introuvable dans la page`);
-			element.textContent = text;
-			element.hidden = false;
-		};
-		const ageTemplate = document.querySelector('[data-slot="age"]')?.dataset.template ?? '{n}';
-		reveal('age', ageTemplate.replace('{n}', String(age)));
-		reveal('phone', phone);
-	}, contact);
+async function fillPhone(page, phone) {
+	await page.evaluate((value) => {
+		const slot = document.querySelector('[data-slot="phone"]');
+		if (!slot) throw new Error('Emplacement du téléphone introuvable dans la page');
+		slot.textContent = value;
+		slot.hidden = false;
+	}, phone);
 }
 
 // Plus grande taille de texte qui tient sur une page : le CV reste lisible et
@@ -152,7 +147,7 @@ async function renderVersion(browser, { lang, route }, contact) {
 		await page.evaluate(() => document.fonts.ready);
 		await page.screenshot({ path: path.join(PREVIEW_DIR, `cv-web-${lang}.png`), fullPage: true });
 
-		await fillPrivateSlots(page, contact);
+		await fillPhone(page, contact.phone);
 		await page.emulateMedia({ media: 'print' });
 		const { size, fill } = await fitToOnePage(page);
 		await screenshotSheet(page, path.join(PREVIEW_DIR, `cv-papier-${lang}.png`));

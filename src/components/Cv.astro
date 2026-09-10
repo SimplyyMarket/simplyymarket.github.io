@@ -1,7 +1,7 @@
 ---
 // CV rendu en page web ; la même page s'imprime en A4 sur une page (voir cv.css).
-// Les emplacements data-slot (âge, téléphone) restent vides et masqués dans le
-// build publié : seul scripts/cv-pdf.mjs les remplit, en local, pour le PDF papier.
+// L'emplacement data-slot="phone" reste vide et masqué dans le build publié :
+// seul scripts/cv-pdf.mjs le remplit, en local, pour le PDF papier.
 import '../styles/cv.css';
 import { identity, type CvContent } from '../data/cv';
 
@@ -10,8 +10,8 @@ interface Props {
 }
 
 const { cv } = Astro.props;
-const otherLang = cv.lang === 'fr' ? 'en' : 'fr';
-const otherHref = cv.lang === 'fr' ? '/en/cv/' : '/cv/';
+const otherLang = cv.lang === 'en' ? 'fr' : 'en';
+const otherHref = cv.lang === 'en' ? '/fr/cv/' : '/cv/';
 const displayUrl = (url: string) => url.replace(/^https?:\/\//, '');
 ---
 
@@ -26,7 +26,6 @@ const displayUrl = (url: string) => url.replace(/^https?:\/\//, '');
 		<p class="cv-headline">{cv.headline}</p>
 		<ul class="cv-contact">
 			<li>{cv.location}</li>
-			<li data-slot="age" data-template={cv.labels.ageTemplate} hidden></li>
 			<li><a href={`mailto:${identity.email}`}>{identity.email}</a></li>
 			<li data-slot="phone" hidden></li>
 		</ul>
