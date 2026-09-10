@@ -1,0 +1,50 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # --- CV : YAML -> PDF via RenderCV, copié dans public/ avant le build Astro ---
+      # NOTE (Phase 0 skeleton) : cv/louis_bich.yaml est encore un brouillon avec des
+      # valeurs TODO. Cette étape est volontairement non-bloquante (continue-on-error)
+      # tant que le schéma n'a pas été validé en Phase 1 — à retirer une fois le YAML final.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Render CV (draft, non-bloquant)
+        continue-on-error: true
+        run: |
+          pip install "rendercv[full]"
+          mkdir -p public/cv
+          rendercv render cv/louis_bich.yaml --output-folder-name rendercv-output || true
+          cp rendercv-output/*.pdf public/cv/ 2>/dev/null || echo "Pas encore de PDF généré (YAML brouillon) — étape ignorée."
+
+      # --- Site : build Astro ---
+      - uses: withastro/action@v6
+
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
