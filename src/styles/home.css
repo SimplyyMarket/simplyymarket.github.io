@@ -152,7 +152,7 @@ a {
 
 .eyebrow,
 .subsection-title,
-.project-body h3 {
+.project-body h4 {
 	font-size: 0.8125rem;
 	font-weight: 650;
 	letter-spacing: 0.14em;
@@ -422,7 +422,7 @@ a {
 	background: var(--color-tint);
 }
 
-.project-body h2 {
+.project-intro h3 {
 	margin: 0;
 	font-size: 2rem;
 	letter-spacing: -0.02em;
@@ -445,7 +445,7 @@ a {
 	font-size: 1.0625rem;
 }
 
-.project-highlights h3 {
+.project-highlights h4 {
 	margin: 0.3rem 0 0.25rem;
 }
 

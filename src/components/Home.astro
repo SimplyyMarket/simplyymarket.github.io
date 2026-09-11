@@ -1,6 +1,6 @@
 ---
-// Page d'accueil portfolio : une seule page qui défile (à propos, projet phare,
-// parcours, compétences, contact). Contenu : src/data/site.ts + src/data/cv.ts.
+// Page d'accueil : une seule page qui défile (à propos, portfolio avec le projet
+// phare, parcours, compétences, contact). Contenu : src/data/site.ts + src/data/cv.ts.
 import '../styles/home.css';
 import mailIcon from '@tabler/icons/outline/mail.svg?raw';
 import linkedinIcon from '@tabler/icons/outline/brand-linkedin.svg?raw';
@@ -37,7 +37,7 @@ const year = new Date().getFullYear();
 		<a class="site-brand" href={home.homeHref}>{identity.name}</a>
 		<nav class="site-nav" aria-label="Sections">
 			<a href="#about">{home.nav.about}</a>
-			<a href="#project">{home.nav.project}</a>
+			<a href="#portfolio">{home.nav.portfolio}</a>
 			<a href="#experience">{home.nav.experience}</a>
 			<a href="#skills">{home.nav.skills}</a>
 			<a href="#contact">{home.nav.contact}</a>
@@ -56,7 +56,7 @@ const year = new Date().getFullYear();
 				<h1>{identity.name}</h1>
 				<p class="hero-lead">{cv.headline}</p>
 				<div class="actions">
-					<a class="button button-primary" href="#project">
+					<a class="button button-primary" href="#portfolio">
 						{home.hero.primaryCta}
 						<span class="icon" aria-hidden="true" set:html={arrowRightIcon} />
 					</a>
@@ -99,9 +99,9 @@ const year = new Date().getFullYear();
 		</div>
 	</section>
 
-	<section id="project" class="section section-tinted">
+	<section id="portfolio" class="section section-tinted">
 		<div class="site-container">
-			<p class="eyebrow">{home.project.eyebrow}</p>
+			<h2 class="section-title">{home.portfolio.title}</h2>
 			<article class="project-card">
 				<div class="project-media">
 					<span class="project-media-icon" aria-hidden="true" set:html={playIcon} />
@@ -110,7 +110,8 @@ const year = new Date().getFullYear();
 				</div>
 				<div class="project-body">
 					<div class="project-intro">
-						<h2>{home.project.name}</h2>
+						<p class="eyebrow">{home.project.eyebrow}</p>
+						<h3>{home.project.name}</h3>
 						<p class="project-genre">{home.project.genre}</p>
 						<p class="project-meta">{featured.role} · {featured.period}</p>
 						<p class="project-meta">{home.project.status}</p>
@@ -120,7 +121,7 @@ const year = new Date().getFullYear();
 						</ul>
 					</div>
 					<div class="project-highlights">
-						<h3>{home.project.highlightsTitle}</h3>
+						<h4>{home.project.highlightsTitle}</h4>
 						<ul class="bullets">
 							{featured.bullets.map((bullet) => <li>{bullet}</li>)}
 						</ul>
@@ -149,7 +150,7 @@ const year = new Date().getFullYear();
 								{project.role && <p class="role">{project.role}</p>}
 								{project.context && <p class="context">{project.context}</p>}
 								{project.name === FEATURED_PROJECT ? (
-									<a class="more" href="#project">{home.experience.featuredNote} ↑</a>
+									<a class="more" href="#portfolio">{home.experience.featuredNote} ↑</a>
 								) : (
 									<ul class="bullets">
 										{project.bullets.map((bullet) => <li>{bullet}</li>)}

@@ -12,9 +12,10 @@ export interface HomeContent {
 	resumePdfHref: string;
 	otherLang: { lang: Lang; href: string; label: string };
 	meta: { title: string; description: string };
-	nav: { about: string; project: string; experience: string; skills: string; contact: string };
+	nav: { about: string; portfolio: string; experience: string; skills: string; contact: string };
 	hero: { eyebrow: string; primaryCta: string; secondaryCta: string };
 	about: { title: string; paragraphs: string[]; facts: string[] };
+	portfolio: { title: string };
 	project: {
 		eyebrow: string;
 		name: string;
@@ -42,8 +43,8 @@ export const homeEn: HomeContent = {
 		title: 'Louis Bich — Unity developer & game designer',
 		description: 'Portfolio of Louis Bich, independent Unity developer and game designer based in Lyon, France.',
 	},
-	nav: { about: 'About', project: 'Navimancie', experience: 'Experience', skills: 'Skills', contact: 'Contact' },
-	hero: { eyebrow: 'Unity developer · Game designer', primaryCta: 'See Navimancie', secondaryCta: 'View resume' },
+	nav: { about: 'About', portfolio: 'Portfolio', experience: 'Experience', skills: 'Skills', contact: 'Contact' },
+	hero: { eyebrow: 'Unity developer · Game designer', primaryCta: 'View portfolio', secondaryCta: 'View resume' },
 	about: {
 		title: 'About',
 		paragraphs: [
@@ -51,8 +52,9 @@ export const homeEn: HomeContent = {
 			'Today I’m the game designer and lead developer of Navimancie, a real-time strategy roguelite planned for release on Steam. Switching between design and code is what I enjoy most: it helps me build systems that are both fun to play and solid under the hood.',
 			'My workflow relies on automated tests and on AI tooling I build myself, such as custom Claude Code skills. They make me faster and more rigorous, while every design and architecture decision stays mine.',
 		],
-		facts: ['Independent since Sep 2023', 'Lyon, France', 'French · English · German'],
+		facts: ['Independent since Sep 2023', 'Lyon, France', 'French · English'],
 	},
+	portfolio: { title: 'Portfolio' },
 	project: {
 		eyebrow: 'Featured project',
 		name: 'Navimancie',
@@ -64,7 +66,7 @@ export const homeEn: HomeContent = {
 		mediaTitle: 'Gameplay video coming soon',
 		mediaText: 'A combat demo and a playable build on itch.io are on the way.',
 	},
-	experience: { title: 'Experience', featuredNote: 'Details in the featured project above' },
+	experience: { title: 'Experience', featuredNote: 'Details in the portfolio above' },
 	skills: { title: 'Skills', languagesTitle: 'Languages' },
 	contact: {
 		title: 'Let’s talk',
@@ -86,8 +88,8 @@ export const homeFr: HomeContent = {
 		title: 'Louis Bich — Développeur Unity & game designer',
 		description: 'Portfolio de Louis Bich, développeur Unity et game designer indépendant basé à Lyon.',
 	},
-	nav: { about: 'À propos', project: 'Navimancie', experience: 'Parcours', skills: 'Compétences', contact: 'Contact' },
-	hero: { eyebrow: 'Développeur Unity · Game designer', primaryCta: 'Découvrir Navimancie', secondaryCta: 'Voir le CV' },
+	nav: { about: 'À propos', portfolio: 'Portfolio', experience: 'Parcours', skills: 'Compétences', contact: 'Contact' },
+	hero: { eyebrow: 'Développeur Unity · Game designer', primaryCta: 'Voir le portfolio', secondaryCta: 'Voir le CV' },
 	about: {
 		title: 'À propos',
 		paragraphs: [
@@ -95,8 +97,9 @@ export const homeFr: HomeContent = {
 			'Aujourd’hui, je suis game designer et développeur principal de Navimancie, un jeu de stratégie en temps réel roguelite dont la sortie est prévue sur Steam. Passer du design au code, c’est ce qui me plaît le plus : ça m’aide à construire des systèmes à la fois amusants à jouer et solides sous le capot.',
 			'Mon workflow repose sur des tests automatisés et sur des outils IA que je conçois moi-même, comme des skills Claude Code sur mesure. Ils me rendent plus rapide et plus rigoureux, et chaque décision de design et d’architecture reste la mienne.',
 		],
-		facts: ['Indépendant depuis sept. 2023', 'Lyon, France', 'Français · Anglais · Allemand'],
+		facts: ['Indépendant depuis sept. 2023', 'Lyon, France', 'Français · Anglais'],
 	},
+	portfolio: { title: 'Portfolio' },
 	project: {
 		eyebrow: 'Projet phare',
 		name: 'Navimancie',
@@ -108,7 +111,7 @@ export const homeFr: HomeContent = {
 		mediaTitle: 'Vidéo de gameplay à venir',
 		mediaText: 'Une démo du combat et une version jouable sur itch.io arrivent bientôt.',
 	},
-	experience: { title: 'Parcours', featuredNote: 'Détails dans le projet phare ci-dessus' },
+	experience: { title: 'Parcours', featuredNote: 'Détails dans le portfolio ci-dessus' },
 	skills: { title: 'Compétences', languagesTitle: 'Langues' },
 	contact: {
 		title: 'Contact',

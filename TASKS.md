@@ -47,6 +47,9 @@ Fonctionnement actuel :
 - [x] `[Ensemble]` CV papier validé
 - [x] `[Moi]` Page d'accueil v1 qui défile (`/` en anglais, `/fr/`) : hero, À propos, projet phare Navimancie (emplacement vidéo), parcours, formation, parcours compétitif, compétences, contact — contenu tiré de `cv.ts` + `site.ts`
 - [x] `[Moi]` Captures du site pour relecture : `npm run site:shots` → `private/preview/site-*.png`
+- [x] `[Moi]` Section « Portfolio » (onglet + titre), Navimancie en projet phare dedans
+- [x] `[Moi]` Allemand retiré des étiquettes « À propos » du site
+- [ ] `[Ensemble]` (prochaine session) Retravailler À propos, parcours et compétences du site : trop proches du CV → contenu complémentaire plutôt que doublon (démarche, choix, visuels, workflow)
 - [ ] `[Toi]` Relire la page d'accueil, en particulier les textes nouveaux : paragraphes « À propos », pitch de Navimancie, phrase de contact
 - [ ] `[Moi]` Publication groupée : CV à jour + page d'accueil (après validation)
 - [ ] `[Moi]` Lighthouse/SEO/accessibilité de base via Chrome DevTools MCP
